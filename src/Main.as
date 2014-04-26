@@ -25,6 +25,8 @@ package
 			// entry point
 			mCombatController = new CombatController();
 			mSkillTreeController = new SkillTreeController();
+			addChild(mCombatController.View);
+			addChild(mSkillTreeController.View);
 		}
 		
 	}
