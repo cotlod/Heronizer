@@ -1,6 +1,7 @@
 package 
 {
 	import combat.CombatController;
+	import combat.CombatView;
 	import combat.event.CharacterEvent;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -47,6 +48,8 @@ package
 		private function OnXPChanged(aEvent:CharacterEvent):void 
 		{
 			mSkillTreeController.AddXP(aEvent.Value);
+			
+			(mCombatController.View as CombatView).AddXP(mSkillTreeController.GetXP());
 		}
 		
 		private function OnSkillChanged(aEvent:SkillTreeEvent):void 

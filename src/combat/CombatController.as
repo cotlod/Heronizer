@@ -35,11 +35,9 @@ package combat
 			mPlayer.addEventListener(SkillEvent.STAT_MODIFIER, OnPlayerSkillStatModifier);
 			mPlayer.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnPlayerReceivedDamage);
 			mPlayer.addEventListener(CharacterEvent.CHANGED_SKILL, OnPlayerChangedSkill);
-			mPlayer.addEventListener(CharacterEvent.DIED, OnPlayerDied);
 			//mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
 			mEnemy.addEventListener(SkillEvent.STAT_MODIFIER, OnEnemySkillStatModifier);
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
-			mEnemy.addEventListener(CharacterEvent.DIED, OnEnemyDied);
 		}
 		
 		private function OnEnemySkillStatModifier(e:SkillEvent):void 
@@ -74,6 +72,13 @@ package combat
 			
 			if (mEnemy.GetStatByID(EStat.HEALTH.ID).Value <= 0)
 			{
+				var xpValueStat:Stat = mEnemy.GetStatByID(EStat.XP_VALUE.ID);
+				
+				//var enemyXPValue:Number = xpValueStat.Value 
+				var enemyXPValue:Number = 2;
+				var playerXPModifier:Number = mPlayer.GetStatByID(EStat.XP_MODIFIER.ID).Value 
+				var xp:Number = enemyXPValue * playerXPModifier;
+				dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
 				mEnemy.SetSkill(new DeadSkill());
 			}
 		}
@@ -113,20 +118,6 @@ package combat
 			{
 				mPlayer.SetSkill(new DeadSkill());
 			}
-		}
-		
-		private function OnPlayerDied(e:CharacterEvent):void 
-		{
-			OnCombatOver();
-		}
-		
-		private function OnEnemyDied(e:CharacterEvent):void 
-		{
-			//enemy died, give XP
-			var xp:Number = 1 * mPlayer.GetStatByID(EStat.XP_MODIFIER.ID).Value;
-			(mView as CombatView).AddXP(xp);
-			dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
-			OnCombatOver();
 		}
 		
 		private function OnPlayerChangedSkill(e:CharacterEvent):void 
