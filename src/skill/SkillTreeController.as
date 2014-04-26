@@ -1,19 +1,19 @@
 package skill 
 {
+	import mvc.BaseController;
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class SkillTreeController 
+	public class SkillTreeController extends BaseController
 	{
-		private var mSkillTreeView:SkillTreeView;
-		private var mSkillTreeModel:SkillTreeModel;
 		
 		public function SkillTreeController() 
 		{
-			mSkillTreeView = new SkillTreeView();
-			mSkillTreeModel = new SkillTreeModel();
+			mView = new SkillTreeView();
+			mModel = new SkillTreeModel();
 		}
+		
 		
 	}
 
