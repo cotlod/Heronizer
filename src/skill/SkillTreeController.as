@@ -78,8 +78,20 @@ package skill
 				
 				mCurrentNode.addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
 				mCurrentNode.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+				mCurrentNode.addEventListener(MouseEvent.CLICK, OnNodeClick);
 				
 				mSkillTreeModel.AddNode(mCurrentNode);
+			}
+		}
+		
+		private function OnNodeClick(aEvent:MouseEvent):void 
+		{
+			if (mDebug) { return; }
+			var node:SkillNode = aEvent.currentTarget as SkillNode;
+			
+			if (node == mSkillTreeModel.SkillNodeList[0] || node.Connection.IsAvailable())
+			{
+				node.Unlocked = !node.Unlocked;
 			}
 		}
 		
@@ -113,9 +125,12 @@ package skill
 			
 			if (mDebug)
 			{
-				if (!mMove && mCurrentNode && aEvent.target is SkillNode)
+				var connectingNode:SkillNode = aEvent.target as SkillNode;
+				
+				if (!mMove && mCurrentNode && connectingNode && mCurrentNode != connectingNode)
 				{
-					mCurrentNode.Connection.AddNode(aEvent.target as SkillNode);
+					mCurrentNode.Connection.AddNode(connectingNode);
+					connectingNode.Connection.AddNode(mCurrentNode);
 				}
 				
 				if (mMove)
@@ -125,28 +140,19 @@ package skill
 			}
 		}
 		
-		override public function Update():void 
+		private function ProcessDebug():void 
 		{
-			super.Update();
+			if (!mDebug) { return; }
 			
-			if (mScroll)
+			if (mMove && mCurrentNode)
 			{
-				mScrollOffset.x -= mLastMousePosition.x - mSkillTreeView.mouseX;
-				mScrollOffset.y -= mLastMousePosition.y - mSkillTreeView.mouseY;
-				
-				mLastMousePosition.x = mSkillTreeView.mouseX;
-				mLastMousePosition.y = mSkillTreeView.mouseY;
+				mCurrentNode.Position.x = mSkillTreeView.mouseX - mScrollOffset.x;
+				mCurrentNode.Position.y = mSkillTreeView.mouseY - mScrollOffset.y;	
 			}
-			
-			if (mDebug && mMove)
-			{
-				if (mCurrentNode)
-				{
-					mCurrentNode.Position.x = mSkillTreeView.mouseX - mScrollOffset.x;
-					mCurrentNode.Position.y = mSkillTreeView.mouseY - mScrollOffset.y;
-				}	
-			}
-			
+		}
+		
+		private function RenderView():void 
+		{
 			mSkillTreeView.SetOffset(mScrollOffset);
 			
 			mSkillTreeView.Update();
@@ -154,8 +160,44 @@ package skill
 			for (var i:int = 0; i < mSkillTreeModel.SkillNodeList.length; i++) 
 			{
 				mSkillTreeModel.SkillNodeList[i].Update();
-				mSkillTreeView.Render(mSkillTreeModel.SkillNodeList[i]);
+				
+				if (!mSkillTreeModel.SkillNodeList[i].Rendered)
+				{
+					mSkillTreeView.Render(mSkillTreeModel.SkillNodeList[i]);
+				}
 			}
+		}
+		
+		private function ProcessScrolling():void 
+		{
+			if (!mScroll) { return; }
+			
+			mScrollOffset.x -= mLastMousePosition.x - mSkillTreeView.mouseX;
+			mScrollOffset.y -= mLastMousePosition.y - mSkillTreeView.mouseY;
+			
+			mLastMousePosition.x = mSkillTreeView.mouseX;
+			mLastMousePosition.y = mSkillTreeView.mouseY;
+		}
+		
+		private function ResetNodeList():void 
+		{
+			for (var i:int = 0; i < mSkillTreeModel.SkillNodeList.length; i++) 
+			{
+				mSkillTreeModel.SkillNodeList[i].Rendered = false;
+			}
+		}
+		
+		override public function Update():void 
+		{
+			super.Update();
+			
+			ProcessScrolling();
+			
+			ProcessDebug();
+			
+			RenderView();
+			
+			ResetNodeList();
 		}
 	}
 }

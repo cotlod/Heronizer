@@ -20,6 +20,7 @@ package skill
 		private var mNodeConnection:NodeConnection;
 		
 		private var mUnlocked:Boolean;
+		private var mRendered:Boolean;
 		
 		private var mXPGate:int;
 		
@@ -39,6 +40,9 @@ package skill
 		public function get Unlocked():Boolean { return(mUnlocked); }
 		public function set Unlocked(aValue:Boolean):void { mUnlocked = aValue; }
 		
+		public function get Rendered():Boolean { return(mRendered); }
+		public function set Rendered(aValue:Boolean):void { mRendered = aValue; }
+		
 		public function FromJSON(aJSON:String):void
 		{
 			
@@ -55,7 +59,14 @@ package skill
 			y = mPosition.y;
 			
 			graphics.clear();
-			graphics.beginFill(0x00FF00);
+			if (Unlocked)
+			{
+				graphics.beginFill(0x00FF00);
+			}
+			else
+			{
+				graphics.beginFill(0xFF0000);
+			}
 			graphics.drawCircle(0, 0, 30);
 			graphics.endFill();
 		}		
