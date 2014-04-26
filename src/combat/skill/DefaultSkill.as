@@ -50,7 +50,7 @@ package combat.skill
 				}
 				//mPlayer.SetState(EState.ATTACK);
 				//mEnemy.ReceiveDamage(damage);
-				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, damage, ETarget.OTHER));
+				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, -damage, ETarget.OTHER));
 				mAttackTimer = mAttackTimer - mSpeed.Value;
 			}
 			/*if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)

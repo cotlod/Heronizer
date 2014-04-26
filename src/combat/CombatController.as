@@ -50,6 +50,10 @@ package combat
 				if (statToModify != null)
 				{
 					statToModify.Value += e.Value;
+					if (e.StatModified.ID == EStat.HEALTH.ID)
+					{
+						(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.Health.Value / mEnemy.Health.OriginalValue);
+					}
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
 				}
 			}
@@ -59,6 +63,10 @@ package combat
 				if (statToModify != null)
 				{
 					statToModify.Value += e.Value;
+					if (e.StatModified.ID == EStat.HEALTH.ID)
+					{
+						(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.Health.Value / mPlayer.Health.OriginalValue);
+					}
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
 				}
 			}
@@ -73,6 +81,10 @@ package combat
 				if (statToModify != null)
 				{
 					statToModify.Value += e.Value;
+					if (e.StatModified.ID == EStat.HEALTH.ID)
+					{
+						(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.Health.Value / mPlayer.Health.OriginalValue);
+					}
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
 				}
 			}
@@ -82,6 +94,10 @@ package combat
 				if (statToModify != null)
 				{
 					statToModify.Value += e.Value;
+					if (e.StatModified.ID == EStat.HEALTH.ID)
+					{
+						(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.Health.Value / mEnemy.Health.OriginalValue);
+					}
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
 				}
 			}
@@ -108,48 +124,12 @@ package combat
 		
 		private function OnEnemyReceivedDamage(e:CharacterEvent):void 
 		{
-			(mView as CombatView).DisplayStat("-" + e.Value + " HP", 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
 			(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.Health.Value / mEnemy.Health.OriginalValue);
 		}
 		
 		private function OnPlayerReceivedDamage(e:CharacterEvent):void 
 		{
-			(mView as CombatView).DisplayStat("-" + e.Value + " HP", 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
 			(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.Health.Value / mPlayer.Health.OriginalValue);
-		}
-		
-		private function OnEnemyAttack(e:CharacterEvent):void 
-		{
-			if (!mCombatOver)
-			{
-				var damage:Number = mEnemy.Attack.Value;
-				var critRatio:Number = mEnemy.CriticalChance.Value / 100;
-				if (Math.random() <= critRatio)
-				{
-					//CRITICAL
-					damage *= 2;
-					(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2) - OffsetValues.CRITICAL_UI_Y_OFFSET));
-				}
-				mEnemy.SetState(EState.ATTACK);
-				mPlayer.ReceiveDamage(damage);
-			}
-		}
-		
-		private function OnPlayerAttack(e:CharacterEvent):void 
-		{
-			if (!mCombatOver)
-			{
-				var damage:Number = mPlayer.Attack.Value;
-				var critRatio:Number = mPlayer.CriticalChance.Value / 100;
-				if (Math.random() <= critRatio)
-				{
-					//CRITICAL
-					damage *= 2;
-					(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2) - OffsetValues.CRITICAL_UI_Y_OFFSET));
-				}
-				mPlayer.SetState(EState.ATTACK);
-				mEnemy.ReceiveDamage(damage);
-			}
 		}
 		
 		private function OnCombatOver():void
