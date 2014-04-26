@@ -31,13 +31,18 @@ package combat
 			mView.addChild(mEnemy.View);
 			
 			//event listeners
-			//mPlayer.addEventListener(CharacterEvent.ATTACK, OnPlayerAttack);
 			mPlayer.addEventListener(SkillEvent.STAT_MODIFIER, OnPlayerSkillStatModifier);
+			mPlayer.addEventListener(SkillEvent.CHANGE_BACKGROUND, OnBackgroundChange);
 			mPlayer.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnPlayerReceivedDamage);
 			mPlayer.addEventListener(CharacterEvent.CHANGED_SKILL, OnPlayerChangedSkill);
-			//mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
 			mEnemy.addEventListener(SkillEvent.STAT_MODIFIER, OnEnemySkillStatModifier);
+			mEnemy.addEventListener(SkillEvent.CHANGE_BACKGROUND, OnBackgroundChange);
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
+		}
+		
+		private function OnBackgroundChange(e:SkillEvent):void 
+		{
+			(mView as CombatView).ToggleBackground();
 		}
 		
 		private function OnEnemySkillStatModifier(e:SkillEvent):void 

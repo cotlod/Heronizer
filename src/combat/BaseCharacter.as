@@ -61,6 +61,7 @@ package combat
 				mCurrentSkill.removeEventListener(SkillEvent.DONE, OnSkillDone);
 				mCurrentSkill.removeEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
 				mCurrentSkill.removeEventListener(SkillEvent.STATE, OnSkillStateChange);
+				mCurrentSkill.removeEventListener(SkillEvent.CHANGE_BACKGROUND, OnSkillChangeBackground);
 				mCurrentSkill.Stop();
 			}
 			
@@ -69,6 +70,7 @@ package combat
 			mCurrentSkill.addEventListener(SkillEvent.DONE, OnSkillDone);
 			mCurrentSkill.addEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
 			mCurrentSkill.addEventListener(SkillEvent.STATE, OnSkillStateChange);
+			mCurrentSkill.addEventListener(SkillEvent.CHANGE_BACKGROUND, OnSkillChangeBackground);
 			
 			if (mCurrentSkill.Type.StatList)
 			{
@@ -98,6 +100,11 @@ package combat
 		private function OnSkillStarted(aEvent:Event):void 
 		{
 			SetState(mCurrentSkill.State);
+		}
+		
+		private function OnSkillChangeBackground(aEvent:SkillEvent):void
+		{
+			dispatchEvent(new SkillEvent(aEvent.type));
 		}
 		
 		private function OnSkillDone(aEvent:Event):void 

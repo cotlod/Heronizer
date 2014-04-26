@@ -35,7 +35,7 @@ package combat
 			mPlayerDeadVisual = new mPlayerDeadClass();
 			mView.addChild(mPlayerIdleVisual);
 			mView.y = OffsetValues.STAGE_HEIGHT - mView.height;
-			//mView.width = 100;
+			mSkillList.push(ESkill.WARP);
 		}
 		
 		override public function SetState(aState:int):void 
