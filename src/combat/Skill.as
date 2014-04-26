@@ -15,15 +15,21 @@ package combat
 		private var mStarted:Boolean;
 		private var mCompleted:Boolean;
 		
-		protected var mStatList:Vector.<Stat>;
+		protected var mState:State;
 		
-		protected var mState:int = EState.IDLE;
+		protected var mStatList:Vector.<Stat>;
+		protected var mStateList:Vector.<State>;
+		
 		protected var mDuration:Number = 0;
 		
 		public function Skill(aType:ESkill) 
 		{
 			mType = aType;
 			mDuration = aType.Duration;
+			
+			mStateList = new Vector.<State>();
+			mStateList.push(new State(EState.IDLE, PlayerAsset.IDLE));
+			mState = mStateList[0];
 		}
 		
 		public function SetStat(aStatList:Vector.<Stat>):void
@@ -50,9 +56,11 @@ package combat
 		}
 		
 		public function get Type():ESkill { return(mType); }
-		public function get State():int { return(mState); }
+		public function get SkillState():State { return(mState); }
 		public function get Elapsed():Number { return(mElapsed); }
 		public function get Duration():Number { return(mDuration); }
+		
+		public function get StateList():Vector.<State> { return(mStateList); }
 		
 		public function Update():void 
 		{

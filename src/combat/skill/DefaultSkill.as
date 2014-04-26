@@ -4,6 +4,7 @@ package combat.skill
 	import combat.EStat;
 	import combat.EState;
 	import combat.ETarget;
+	import combat.PlayerAsset;
 	import combat.Skill;
 	import combat.skill.event.SkillEvent;
 	import combat.Stat;
@@ -26,8 +27,8 @@ package combat.skill
 		{
 			super(ESkill.DEFAULT_SKILL);
 			
-			mStateList.push(new State(EState.ATTACK, "Strike"));
-			mStateList.push(new State(EState.HIT, "Hit"));
+			mStateList.push(new State(EState.ATTACK, PlayerAsset.STRIKE));
+			mStateList.push(new State(EState.HIT, PlayerAsset.HIT));
 		}
 		
 		override public function SetStat(aStatList:Vector.<Stat>):void 
@@ -57,19 +58,19 @@ package combat.skill
 					//(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2) - OffsetValues.CRITICAL_UI_Y_OFFSET));
 				}
 				
-				mState = EState.ATTACK;
+				mState = mStateList[1];
 				
 				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, -damage, ETarget.OTHER));
 				mAttackTimer = mAttackTimer - mSpeed.Value;
 				mAttackHitTimer = 0;
 			}
-			if (mState == EState.ATTACK)
+			if (mState.ID == EState.ATTACK)
 			{
 				mAttackHitTimer += GameTime.DeltaTime;
 				
 				if (mAttackHitTimer >= TIME_IN_ATTACK_HIT_STATE)
 				{
-					mState = EState.IDLE;
+					mState = mStateList[0];
 					dispatchEvent(new SkillEvent(SkillEvent.STATE));
 					mAttackHitTimer = mAttackHitTimer - TIME_IN_ATTACK_HIT_STATE;
 				}

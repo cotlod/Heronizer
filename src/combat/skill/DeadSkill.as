@@ -2,8 +2,10 @@ package combat.skill
 {
 	import combat.ESkill;
 	import combat.EState;
+	import combat.PlayerAsset;
 	import combat.Skill;
 	import combat.Stat;
+	import combat.State;
 	/**
 	 * ...
 	 * @author 
@@ -16,7 +18,9 @@ package combat.skill
 		{
 			super(ESkill.DEAD);
 			
-			mState = EState.DEAD;
+			mStateList.length = 0;
+			mStateList.push(new State(EState.DEAD, PlayerAsset.DEATH));
+			mState = mStateList[0];
 		}
 		
 		override public function SetStat(aStatList:Vector.<Stat>):void 
