@@ -16,9 +16,9 @@ package combat
 	{
 		protected var Name:String = "";		
 		
-		public var mSkillList:Vector.<ESkill> = new Vector.<ESkill>();
+		protected var mSkillList:Vector.<ESkill> = new Vector.<ESkill>();
 		
-		public var mCurrentState:int = EState.IDLE;
+		protected var mCurrentState:int = EState.IDLE;
 		
 		protected var mCharacterStat:CharacterStat;
 		
@@ -107,7 +107,7 @@ package combat
 			dispatchEvent(new SkillEvent(aEvent.type));
 		}
 		
-		private function OnSkillDone(aEvent:Event):void 
+		protected function OnSkillDone(aEvent:Event):void 
 		{
 			if (mSkillList.length <= 0) { return; }
 			
@@ -153,7 +153,14 @@ package combat
 		{
 			return(mCurrentSkill);
 		}
-		
+		public function get CurrentState():int 
+		{
+			return(mCurrentState);
+		}
+		public function GetSkillList():Vector.<ESkill>
+		{
+			return(mSkillList);
+		}
 		
 		override public function Update():void
 		{
