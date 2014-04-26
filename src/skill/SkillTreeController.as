@@ -71,6 +71,7 @@ package skill
 			{
 				mSkillTreeModel.SkillNodeList[i].addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
 				mSkillTreeModel.SkillNodeList[i].addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+				mSkillTreeModel.SkillNodeList[i].addEventListener(MouseEvent.CLICK, OnNodeClick);
 			}
 			
 			mUniqueID = mSkillTreeModel.LastID;
