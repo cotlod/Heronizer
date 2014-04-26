@@ -125,7 +125,7 @@ package combat
 					playerStat.Value += modifierStat.Value;
 				}
 			}
-			mSkillList.splice(0, mSkillList.length);
+			mSkillList.length = 0;
 			for each(var skill:Skill in aSkillUpdate)
 			{
 				mSkillList.push(skill);

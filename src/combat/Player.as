@@ -29,6 +29,7 @@ package combat
 		public function Player() 
 		{
 			super();
+			mCurrentSkill = ESkill.DEFAULT_SKILL;
 			mStatList.push(XpModifier);
 			Name = "Player";
 			mPlayerIdleVisual = new mPlayerIdleClass();
@@ -72,11 +73,11 @@ package combat
 		override public function Update():void 
 		{
 			mSkillTimer += GameTime.DeltaTime;
-			dispatchEvent(new CharacterEvent(CharacterEvent.SKILL_COOLDOWN_UPDATE, mSkillTimer / SkillDuration.Value));
-			if (mSkillTimer >= SkillDuration.Value)
+			dispatchEvent(new CharacterEvent(CharacterEvent.SKILL_COOLDOWN_UPDATE, mSkillTimer / mCurrentSkill.Duration));
+			if (mSkillTimer >= mCurrentSkill.Duration)
 			{
 				dispatchEvent(new CharacterEvent(CharacterEvent.CHANGED_SKILL));
-				mSkillTimer = mSkillTimer - SkillDuration.Value;
+				mSkillTimer = mSkillTimer - mCurrentSkill.Duration;
 			}
 			super.Update();
 		}
