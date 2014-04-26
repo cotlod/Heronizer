@@ -3,6 +3,7 @@ package combat
 	import combat.event.CharacterEvent;
 	import combat.skill.DeadSkill;
 	import combat.skill.event.SkillEvent;
+	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import mvc.BaseController;
 	import skill.SkillUpdate;
@@ -27,6 +28,9 @@ package combat
 			mPlayer.Init();
 			mEnemy = new Enemy();
 			mEnemy.Init();
+			
+			mEnemy.View.addEventListener(MouseEvent.CLICK, OnEnemyClick);
+			
 			mView.addChild(mPlayer.View);
 			mView.addChild(mEnemy.View);
 			
@@ -38,6 +42,13 @@ package combat
 			mEnemy.addEventListener(SkillEvent.STAT_MODIFIER, OnEnemySkillStatModifier);
 			mEnemy.addEventListener(SkillEvent.CHANGE_BACKGROUND, OnBackgroundChange);
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
+		}
+		
+		private function OnEnemyClick(e:MouseEvent):void 
+		{
+			var health:Stat = mEnemy.GetStatByID(EStat.HEALTH.ID);
+			health.Value = health.Value-1;
+			OnEnemyReceivedDamage(null);
 		}
 		
 		private function OnBackgroundChange(e:SkillEvent):void 
@@ -174,7 +185,10 @@ package combat
 		
 		override public function Update():void
 		{
-			(mView as CombatView).SetSkillCooldown(mPlayer.CurrentSkill.Elapsed / mPlayer.CurrentSkill.Duration);
+			if (mPlayer.CurrentSkill)
+			{
+				(mView as CombatView).SetSkillCooldown(mPlayer.CurrentSkill.Elapsed / mPlayer.CurrentSkill.Duration);
+			}
 			
 			mPlayer.Update();
 			mEnemy.Update();

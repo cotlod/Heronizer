@@ -14,41 +14,29 @@ package combat.skill
 	 * ...
 	 * @author 
 	 */
-	public class ToastSkill extends Skill
+	public class AttackSkill extends Skill
 	{
-		private static const TIME_IN_ATTACK_HIT_STATE:Number = 1;
+		private static const TIME_IN_ATTACK_HIT_STATE:Number = 0.5;
 		private var mAttackTimer:Number = 0;
-		private var mAttackHitTimer:Number = 0;
-		
-		private var mAttack:Stat;
 		private var mSpeed:Stat;
-		private var mSkillDuration:Stat;
+		private var mAttack:Stat;
 		private var mCritChance:Stat;
 		
-		private var mXPModifier:Number;
-		
-		public function ToastSkill() 
+		public function AttackSkill() 
 		{
-			super(ESkill.TOAST);
+			super(ESkill.DEFAULT_SKILL);
 			
-			mStateList.length = 0;
-			mStateList.push(new State(EState.IDLE, PlayerAsset.IDLE_TOAST));
-			mStateList.push(new State(EState.ATTACK, PlayerAsset.STRIKE_TOAST));
-			
-			mState = mStateList[0];
+			mStateList.push(new State(EState.ATTACK, PlayerAsset.STRIKE));
+			mStateList.push(new State(EState.HIT, PlayerAsset.HIT));
 		}
 		
 		override public function SetStat(aStatList:Vector.<Stat>):void 
 		{
 			super.SetStat(aStatList);
 			
-			mAttack = aStatList[0];
-			mSpeed = aStatList[1];
-			//mSkillDuration = aStatList[2];
-			
-			//mDuration += mSkillDuration.Value;
+			mSpeed = aStatList[0];
+			mAttack = aStatList[1];
 			mCritChance = aStatList[2];
-			mXPModifier = aStatList[3].Value * 2;
 		}
 		
 		override public function Update():void 
@@ -57,10 +45,10 @@ package combat.skill
 			
 			mAttackTimer += GameTime.DeltaTime;
 			
-			if (mState.ID == EState.IDLE && mAttackTimer >= mSpeed.Value * 2)
+			if (mState.ID == EState.IDLE && mAttackTimer >= mSpeed.Value)
 			{
-				var damage:Number = mAttack.Value * 2;
-				var critRatio:Number = mCritChance.Value * 2 / 100;
+				var damage:Number = mAttack.Value;
+				var critRatio:Number = mCritChance.Value / 100;
 				
 				if (Math.random() <= critRatio)
 				{
@@ -74,7 +62,7 @@ package combat.skill
 				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, -damage, ETarget.OTHER));
 				mAttackTimer = 0;
 			}
-			else if (mState.ID == EState.ATTACK && mAttackTimer >= mSpeed.Value * 2)
+			else if (mState.ID == EState.ATTACK && mAttackTimer >= mSpeed.Value)
 			{				
 				mState = mStateList[0];
 				dispatchEvent(new SkillEvent(SkillEvent.STATE));

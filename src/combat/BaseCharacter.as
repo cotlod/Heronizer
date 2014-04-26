@@ -50,7 +50,7 @@ package combat
 		
 		public function Init():void
 		{
-			SetSkill(new DefaultSkill());
+			OnSkillDone(null);
 		}
 		
 		public function SetSkill(aSkill:Skill):void 
@@ -109,6 +109,8 @@ package combat
 		
 		private function OnSkillDone(aEvent:Event):void 
 		{
+			if (mSkillList.length <= 0) { return; }
+			
 			var randomSkill:ESkill = mSkillList[int(Math.random() * mSkillList.length)];
 			
 			var skill:Skill = new randomSkill.Definition();
@@ -131,15 +133,14 @@ package combat
 			//override for visual
 			mCurrentState = aState;
 			
-			if (mView.numChildren > 0)
-			{
-				mView.removeChildAt(0);
-			}
-			
 			for (var i:int = 0; i < mCurrentSkill.StateList.length; i++) 
 			{
 				if (mCurrentSkill.StateList[i].ID == mCurrentState)
 				{
+					if (mView.numChildren > 0)
+					{
+						mView.removeChildAt(0);
+					}
 					
 					return(true);
 				}

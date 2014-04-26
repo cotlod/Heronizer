@@ -24,14 +24,6 @@ package combat
 			Name = "Player";
 			
 			mView.y = OffsetValues.STAGE_HEIGHT - 300;
-			//mView.width = 100;
-			
-			mSkillList.length = 0;
-			mSkillList.push(ESkill.DEFAULT_SKILL);
-			mSkillList.push(ESkill.TOAST);
-			mSkillList.push(ESkill.WARP);
-			
-			mView.y = OffsetValues.STAGE_HEIGHT - 300;
 		}
 		
 		override public function SetState(aState:int):Boolean 
@@ -46,12 +38,6 @@ package combat
 			return(false);
 		}
 		
-		override public function Update():void 
-		{
-			super.Update();
-		}
-
-
 	}
 
 }

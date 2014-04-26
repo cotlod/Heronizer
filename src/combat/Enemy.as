@@ -22,17 +22,20 @@ package combat
 			
 			mView.x = OffsetValues.COMBAT_VIEW_WIDTH - 300;
 			mView.y = OffsetValues.STAGE_HEIGHT - 400;
+			
+			mSkillList.push(ESkill.ATTACK);
 		}
 		
 		override public function SetState(aState:int):Boolean 
 		{
 			if (super.SetState(aState))
 			{
-				mView.addChild(Enemy1Asset.AssetDictionary[mCurrentSkill.SkillState.Visual]);
+				var visual:Bitmap = Enemy1Asset.AssetDictionary[mCurrentSkill.SkillState.Visual];
+				mView.addChild(visual);
 				return(true);
 			}
 			
-			return(false)
+			return(false);
 		}
 		
 	}
