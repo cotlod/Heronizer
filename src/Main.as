@@ -3,7 +3,9 @@ package
 	import combat.CombatController;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.utils.getTimer;
 	import skill.SkillTreeController;
+	import util.GameTime;
 	import util.Stage2D;
 	
 	/**
@@ -14,8 +16,10 @@ package
 	{
 		private var mCombatController:CombatController;
 		private var mSkillTreeController:SkillTreeController;
+		private var mLastFrameTime:int = 0;
 		public function Main():void 
 		{
+			mLastFrameTime = getTimer();
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -36,6 +40,9 @@ package
 		
 		private function Update(e:Event):void 
 		{
+			var currentTime:int = getTimer();
+			GameTime.DeltaTime = (currentTime - mLastFrameTime) / 1000;
+			mLastFrameTime = currentTime;
 			mCombatController.Update();
 			mSkillTreeController.Update();
 		}

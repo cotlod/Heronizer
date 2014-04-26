@@ -1,5 +1,6 @@
 package combat 
 {
+	import util.GameTime;
 	/**
 	 * ...
 	 * @author 
@@ -21,6 +22,7 @@ package combat
 		
 		public function Update():void
 		{
+			trace("deltatime = " + GameTime.DeltaTime);
 			mPlayer.Update();
 			mEnemy.Update();
 		}
