@@ -21,7 +21,8 @@ package combat
 		
 		public function Update():void
 		{
-			
+			mPlayer.Update();
+			mEnemy.Update();
 		}
 	}
 
