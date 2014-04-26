@@ -51,7 +51,8 @@ package combat.ui
 			mPlayerHealthBar.y = OffsetValues.HEALTH_BARS_Y_OFFSET;
 			mEnemyHealthBar.y = OffsetValues.HEALTH_BARS_Y_OFFSET;
 			mEnemyHealthBar.x = OffsetValues.COMBAT_VIEW_WIDTH - mEnemyHealthBar.width;
-			mSkillCountdownBar.x = OffsetValues.COMBAT_VIEW_WIDTH / 2;
+			mSkillCountdownBar.x = OffsetValues.COMBAT_VIEW_WIDTH / 2 - (mSkillCountdownBar.width / 2) + 10;
+			mSkillCountdownBar.y = 75;
 			mUIFrame02.x = 463;
 		}
 		
