@@ -44,7 +44,7 @@ package skill
 				mSkillTreeModel.SkillNodeList[i].addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 			}
 			
-			mSkillTreeView.addEventListener(MouseEvent.MOUSE_DOWN, OnScrollMouseDown, true);
+			mSkillTreeView.addEventListener(MouseEvent.MOUSE_DOWN, OnScrollMouseDown);
 			mSkillTreeView.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 			mSkillTreeView.addEventListener(MouseEvent.CLICK, OnSkillTreeClick);
 			
@@ -58,6 +58,7 @@ package skill
 			if (aEvent.keyCode == Keyboard.SPACE)
 			{
 				mDebug = !mDebug;
+				mCurrentNode = null;
 			}
 			
 			if (aEvent.keyCode == Keyboard.M)
@@ -71,17 +72,20 @@ package skill
 			if (mDebug && !mMove)
 			{
 				mCurrentNode = new SkillNode();
+				
 				mCurrentNode.Position.x = mSkillTreeView.mouseX - mScrollOffset.x;
 				mCurrentNode.Position.y = mSkillTreeView.mouseY - mScrollOffset.y;
+				
 				mCurrentNode.addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
 				mCurrentNode.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+				
 				mSkillTreeModel.AddNode(mCurrentNode);
 			}
 		}
 		
 		private function OnScrollMouseDown(aEvent:MouseEvent):void 
 		{
-			aEvent.stopPropagation();
+			//aEvent.stopPropagation();
 			
 			if (mDebug) { return; }
 			
@@ -97,7 +101,7 @@ package skill
 			
 			if (mDebug)
 			{
-				mCurrentNode = aEvent.target as SkillNode;
+				mCurrentNode = aEvent.currentTarget as SkillNode;
 			}
 		}
 		

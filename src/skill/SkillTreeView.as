@@ -10,6 +10,8 @@ package skill
 	public class SkillTreeView extends BaseView
 	{
 		private var mMask:Sprite;
+		private var mBackground:Sprite;
+		private var mPathContainer:Sprite;
 		private var mScrollOffset:Point;
 		
 		public function SkillTreeView() 
@@ -19,11 +21,21 @@ package skill
 			mMask.graphics.beginFill(0x000000);
 			mMask.graphics.drawRect(0, 0, 615, 768);
 			mMask.graphics.endFill();
-			//mMask.mouseEnabled = false;
-			mMask.visible = false;
+			//mMask.visible = false;
 			addChild(mMask);
 			
 			mask = mMask;
+			
+			mBackground  = new Sprite();
+			
+			mBackground.graphics.beginFill(0xCCFFFF);
+			mBackground.graphics.drawRect(0, 0, 615, 768);
+			mBackground.graphics.endFill();
+			mBackground.mouseEnabled = false;
+			addChild(mBackground);
+			
+			mPathContainer = new Sprite();
+			addChild(mPathContainer);
 		}
 		
 		public function Render(aSkillNode:SkillNode):void
@@ -32,9 +44,9 @@ package skill
 			
 			for (var i:int = 0; i < connectionList.length; i++) 
 			{
-				graphics.lineStyle(2, 0x000000);
-				graphics.moveTo(aSkillNode.Position.x + mScrollOffset.x, aSkillNode.Position.y + mScrollOffset.y);
-				graphics.lineTo(connectionList[i].Position.x + mScrollOffset.x, connectionList[i].Position.y + mScrollOffset.y);
+				mPathContainer.graphics.lineStyle(2, 0x000000);
+				mPathContainer.graphics.moveTo(aSkillNode.Position.x + mScrollOffset.x, aSkillNode.Position.y + mScrollOffset.y);
+				mPathContainer.graphics.lineTo(connectionList[i].Position.x + mScrollOffset.x, connectionList[i].Position.y + mScrollOffset.y);
 			}
 			aSkillNode.x = aSkillNode.Position.x + mScrollOffset.x;
 			aSkillNode.y = aSkillNode.Position.y + mScrollOffset.y;
@@ -43,11 +55,7 @@ package skill
 		
 		override public function Update():void 
 		{
-			graphics.clear();
-			
-			graphics.beginFill(0xCCFFFF);
-			graphics.drawRect(0, 0, 615, 768);
-			graphics.endFill();
+			mPathContainer.graphics.clear();
 			
 			super.Update();
 		}
