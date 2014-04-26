@@ -6,12 +6,14 @@ package combat
 	 */
 	public class Skill 
 	{
+		private var mType:ESkill;
 		
-		public function Skill() 
+		public function Skill(aType:ESkill) 
 		{
-			
+			mType = aType;
 		}
 		
+		public function get Type():ESkill { return(mType); }
 	}
 
 }

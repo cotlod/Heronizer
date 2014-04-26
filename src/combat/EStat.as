@@ -24,8 +24,11 @@ package combat
 		{
 			ID = aID;
 			Name = aName;
+			
+			mEStatList.push(this);
 		}
 		
+		static public function GetList():Vector.<EStat> { return(mEStatList); }
 	}
 
 }

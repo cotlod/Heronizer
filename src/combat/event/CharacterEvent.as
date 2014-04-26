@@ -11,6 +11,7 @@ package combat.event
 		public static const ATTACK:String = "Character_Attack";
 		public static const RECEIVED_DAMAGE:String = "Character_Received_Damage";
 		public static const DIED:String = "Character_Died";
+		public static const XP_UPDATED:String = "Character_Updated";
 		public static const CHANGED_SKILL:String = "Character_ChangedSkill";
 		public static const SKILL_COOLDOWN_UPDATE:String = "Character_Cooldown_Update";
 		

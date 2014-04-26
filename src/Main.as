@@ -1,9 +1,11 @@
 package 
 {
 	import combat.CombatController;
+	import combat.event.CharacterEvent;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.getTimer;
+	import skill.event.SkillTreeEvent;
 	import skill.SkillTreeController;
 	import util.GameTime;
 	import util.Stage2D;
@@ -30,14 +32,25 @@ package
 			// entry point
 			Stage2D = stage;
 			mCombatController = new CombatController();
+			mCombatController.addEventListener(CharacterEvent.XP_UPDATED, OnXPChanged);
 			mSkillTreeController = new SkillTreeController();
-			
+			mSkillTreeController.addEventListener(SkillTreeEvent.SKILL_CHANGED, OnSkillChanged);
 			addChild(mCombatController.View);
 			
 			mSkillTreeController.View.x = mCombatController.View.x + 400;
 			addChild(mSkillTreeController.View);
 			
 			addEventListener(Event.ENTER_FRAME, Update);
+		}
+		
+		private function OnXPChanged(aEvent:CharacterEvent):void 
+		{
+			mSkillTreeController.SetXP(0 /*TODO: Update XP*/);
+		}
+		
+		private function OnSkillChanged(aEvent:SkillTreeEvent):void 
+		{
+			mSkillTreeController.ComputeSkill();
 		}
 		
 		private function Update(e:Event):void 

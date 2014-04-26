@@ -7,9 +7,9 @@ package combat
 	public class SkillOne extends Skill
 	{
 		
-		public function SkillOne() 
+		public function SkillOne(aType:ESkill) 
 		{
-			
+			super(aType);
 		}
 		
 	}
