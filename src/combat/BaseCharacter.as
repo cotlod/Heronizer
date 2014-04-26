@@ -14,7 +14,6 @@ package combat
 	 */
 	public class BaseCharacter extends BaseController
 	{
-		private static const TIME_IN_ATTACK_HIT_STATE:Number = 1;
 		protected var Name:String = "";
 		public var Health:Stat = new Stat(10, 0, EStat.HEALTH);
 		public var Speed:Stat = new Stat(1, 0, EStat.SPEED);
@@ -25,8 +24,7 @@ package combat
 		
 		public var mStatList:Vector.<Stat> = new Vector.<Stat>();
 		public var mSkillList:Vector.<ESkill> = new Vector.<ESkill>();
-		private var mAttackTimer:Number = 0;
-		private var mAttackHitTimer:Number = 0;
+		
 		private var mCurrentState:int = EState.IDLE;
 		
 		protected var mCurrentSkill:Skill;
@@ -46,6 +44,11 @@ package combat
 			mSkillList.push(ESkill.DEFAULT_SKILL);
 		}
 		
+		private function OnSkillStatModifier(e:SkillEvent):void 
+		{
+			dispatchEvent(e);
+		}
+		
 		public function Init():void
 		{
 			SetSkill(new DefaultSkill());
@@ -57,12 +60,14 @@ package combat
 			{
 				mCurrentSkill.removeEventListener(SkillEvent.STARTED, OnSkillStarted);
 				mCurrentSkill.removeEventListener(SkillEvent.DONE, OnSkillDone);
+				mCurrentSkill.removeEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
 				mCurrentSkill.Stop();
 			}
 			
 			mCurrentSkill = aSkill;
 			mCurrentSkill.addEventListener(SkillEvent.STARTED, OnSkillStarted);
 			mCurrentSkill.addEventListener(SkillEvent.DONE, OnSkillDone);
+			mCurrentSkill.addEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
 			
 			if (mCurrentSkill.Type.StatList)
 			{
@@ -126,30 +131,13 @@ package combat
 			
 			if (mCurrentState != EState.DEAD && (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT))
 			{
-				mAttackHitTimer = 0;
+				//mAttackHitTimer = 0;
 			}
 		}
 		
 		override public function Update():void
 		{
 			mCurrentSkill.Update();
-			
-			if (mCurrentState == EState.DEAD) { return; }
-			
-			mAttackTimer += GameTime.DeltaTime;
-			if (mAttackTimer >= Speed.Value)
-			{
-				dispatchEvent(new CharacterEvent(CharacterEvent.ATTACK));
-				mAttackTimer = mAttackTimer - Speed.Value;
-			}
-			if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
-			{
-				mAttackHitTimer += GameTime.DeltaTime;
-				if (mAttackHitTimer >= TIME_IN_ATTACK_HIT_STATE)
-				{
-					SetState(EState.IDLE);
-				}
-			}
 		}
 	}
 

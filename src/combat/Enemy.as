@@ -9,28 +9,46 @@ package combat
 	public class Enemy extends BaseCharacter 
 	{
 		[Embed(source="../../bin/assets/Vilain01_Idle.png")]
-		private var mEnemyIdleClass:Class;
-		private var mEnemyIdleVisual:Bitmap;
+		private var mEnemyIdle1Class:Class;
+		private var mEnemyIdle1Visual:Bitmap;
 		[Embed(source="../../bin/assets/Vilain01_Strike.png")]
-		private var mEnemyAttackClass:Class;
-		private var mEnemyAttackVisual:Bitmap;
+		private var mEnemyAttack1Class:Class;
+		private var mEnemyAttack1Visual:Bitmap;
 		[Embed(source="../../bin/assets/Vilain01_Hit.png")]
-		private var mEnemyHitClass:Class;
-		private var mEnemyHitVisual:Bitmap;
+		private var mEnemyHit1Class:Class;
+		private var mEnemyHit1Visual:Bitmap;
 		[Embed(source="../../bin/assets/Vilain01_Death.png")]
-		private var mEnemyDeadClass:Class;
-		private var mEnemyDeadVisual:Bitmap;
+		private var mEnemyDead1Class:Class;
+		private var mEnemyDead1Visual:Bitmap;
+		
+		[Embed(source="../../bin/assets/Vilain02_Idle.png")]
+		private var mEnemyIdle2Class:Class;
+		private var mEnemyIdle2Visual:Bitmap;
+		[Embed(source="../../bin/assets/Vilain02_Strike.png")]
+		private var mEnemyAttack2Class:Class;
+		private var mEnemyAttack2Visual:Bitmap;
+		[Embed(source="../../bin/assets/Vilain02_Hit.png")]
+		private var mEnemyHit2Class:Class;
+		private var mEnemyHit2Visual:Bitmap;
+		[Embed(source="../../bin/assets/Vilain02_Death.png")]
+		private var mEnemyDead2Class:Class;
+		private var mEnemyDead2Visual:Bitmap;
 		
 		public function Enemy() 
 		{
 			super();
 			Name = "Enemy";
-			mEnemyIdleVisual = new mEnemyIdleClass();
-			mEnemyAttackVisual = new mEnemyAttackClass();
-			mEnemyDeadVisual = new mEnemyDeadClass();
-			mEnemyHitVisual = new mEnemyHitClass();
-			mView.addChild(mEnemyIdleVisual);
-			//mView.width = 100;
+			mEnemyIdle1Visual = new mEnemyIdle1Class();
+			mEnemyAttack1Visual = new mEnemyAttack1Class();
+			mEnemyDead1Visual = new mEnemyDead1Class();
+			mEnemyHit1Visual = new mEnemyHit1Class();
+			
+			mEnemyIdle2Visual = new mEnemyIdle2Class();
+			mEnemyAttack2Visual = new mEnemyAttack2Class();
+			mEnemyDead2Visual = new mEnemyDead2Class();
+			mEnemyHit2Visual = new mEnemyHit2Class();
+			
+			mView.addChild(mEnemyIdle1Visual);
 			mView.x = OffsetValues.COMBAT_VIEW_WIDTH - mView.width;
 			mView.y = OffsetValues.STAGE_HEIGHT - mView.height;
 		}
@@ -46,22 +64,22 @@ package combat
 			{
 				case EState.IDLE:
 				{
-					mView.addChild(mEnemyIdleVisual);
+					mView.addChild(mEnemyIdle1Visual);
 					break;
 				}
 				case EState.ATTACK:
 				{
-					mView.addChild(mEnemyAttackVisual);
+					mView.addChild(mEnemyAttack1Visual);
 					break;
 				}
 				case EState.HIT:
 				{
-					mView.addChild(mEnemyHitVisual);
+					mView.addChild(mEnemyHit1Visual);
 					break;
 				}
 				case EState.DEAD:
 				{
-					mView.addChild(mEnemyDeadVisual);
+					mView.addChild(mEnemyDead1Visual);
 					break;
 				}
 			}

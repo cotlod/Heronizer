@@ -1,6 +1,7 @@
 package combat 
 {
 	import combat.event.CharacterEvent;
+	import combat.skill.event.SkillEvent;
 	import flash.geom.Point;
 	import mvc.BaseController;
 	import skill.SkillUpdate;
@@ -29,14 +30,26 @@ package combat
 			mView.addChild(mEnemy.View);
 			
 			//event listeners
-			mPlayer.addEventListener(CharacterEvent.ATTACK, OnPlayerAttack);
+			//mPlayer.addEventListener(CharacterEvent.ATTACK, OnPlayerAttack);
+			mPlayer.addEventListener(SkillEvent.STAT_MODIFIER, OnPlayerSkillStatModifier);
 			mPlayer.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnPlayerReceivedDamage);
 			mPlayer.addEventListener(CharacterEvent.CHANGED_SKILL, OnPlayerChangedSkill);
 			mPlayer.addEventListener(CharacterEvent.SKILL_COOLDOWN_UPDATE, OnPlayerCooldownUpdate);
 			mPlayer.addEventListener(CharacterEvent.DIED, OnPlayerDied);
-			mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
+			//mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
+			mEnemy.addEventListener(SkillEvent.STAT_MODIFIER, OnEnemySkillStatModifier);
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
 			mEnemy.addEventListener(CharacterEvent.DIED, OnEnemyDied);
+		}
+		
+		private function OnEnemySkillStatModifier(e:SkillEvent):void 
+		{
+			
+		}
+		
+		private function OnPlayerSkillStatModifier(e:SkillEvent):void 
+		{
+			
 		}
 		
 		private function OnPlayerDied(e:CharacterEvent):void 
