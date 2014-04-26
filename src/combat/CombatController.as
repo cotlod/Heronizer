@@ -43,12 +43,48 @@ package combat
 		
 		private function OnEnemySkillStatModifier(e:SkillEvent):void 
 		{
-			
+			var statToModify:Stat;
+			if (e.Target == ETarget.SELF)
+			{
+				statToModify = mEnemy.GetStatByID(e.StatModified.ID);
+				if (statToModify != null)
+				{
+					statToModify.Value += e.Value;
+					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+				}
+			}
+			else 
+			{
+				statToModify = mPlayer.GetStatByID(e.StatModified.ID);
+				if (statToModify != null)
+				{
+					statToModify.Value += e.Value;
+					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
+				}
+			}
 		}
 		
 		private function OnPlayerSkillStatModifier(e:SkillEvent):void 
 		{
-			
+			var statToModify:Stat;
+			if (e.Target == ETarget.SELF)
+			{
+				statToModify = mPlayer.GetStatByID(e.StatModified.ID);
+				if (statToModify != null)
+				{
+					statToModify.Value += e.Value;
+					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
+				}
+			}
+			else 
+			{
+				statToModify = mEnemy.GetStatByID(e.StatModified.ID);
+				if (statToModify != null)
+				{
+					statToModify.Value += e.Value;
+					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+				}
+			}
 		}
 		
 		private function OnPlayerDied(e:CharacterEvent):void 

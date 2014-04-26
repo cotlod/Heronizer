@@ -141,6 +141,18 @@ package combat
 			return(mCurrentSkill);
 		}
 		
+		public function GetStatByID(aStatId:int):Stat
+		{
+			for each(var stat:Stat in mStatList)
+			{
+				if (stat.Type.ID == aStatId)
+				{
+					return stat;
+				}
+			}
+			return null;
+		}
+		
 		override public function Update():void
 		{
 			mCurrentSkill.Update();
