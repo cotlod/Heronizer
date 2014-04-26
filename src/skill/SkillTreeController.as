@@ -12,6 +12,10 @@ package skill
 			
 		}
 		
+		public function Update():void
+		{
+			
+		}
 	}
 
 }

@@ -25,6 +25,14 @@ package
 			// entry point
 			mCombatController = new CombatController();
 			mSkillTreeController = new SkillTreeController();
+			
+			addEventListener(Event.ENTER_FRAME, Update);
+		}
+		
+		private function Update(e:Event):void 
+		{
+			mCombatController.Update();
+			mSkillTreeController.Update();
 		}
 		
 	}

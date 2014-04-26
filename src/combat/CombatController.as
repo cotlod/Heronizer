@@ -19,6 +19,10 @@ package combat
 			mEnemy = new Enemy();
 		}
 		
+		public function Update():void
+		{
+			
+		}
 	}
 
 }
