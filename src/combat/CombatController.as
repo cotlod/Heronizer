@@ -89,6 +89,7 @@ package combat
 		private function OnEnemySkillStatModifier(e:SkillEvent):void
 		{
 			var statToModify:Stat;
+			var color:uint = e.Value >= 0 ? 0x00FF00 : 0xFF0000;
 			if (e.Target == ETarget.SELF)
 			{
 				statToModify = mEnemy.GetStatByID(e.StatModified.ID);
@@ -99,7 +100,7 @@ package combat
 					{
 						(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.GetStatByID(EStat.HEALTH.ID).Value / mEnemy.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 					}
-					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, color, new Point(mEnemy.View.x + (mEnemy.View.width / 2), 500));
 				}
 			}
 			else
@@ -116,7 +117,8 @@ package combat
 						}
 						(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.GetStatByID(EStat.HEALTH.ID).Value / mPlayer.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 					}
-					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
+					
+					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, color, new Point(70, 500));
 				}
 			}
 			
@@ -141,6 +143,7 @@ package combat
 		private function OnPlayerSkillStatModifier(e:SkillEvent):void
 		{
 			var statToModify:Stat;
+			var color:uint = e.Value >= 0 ? 0x00FF00 : 0xFF0000;
 			if (e.Target == ETarget.SELF)
 			{
 				statToModify = mPlayer.GetStatByID(e.StatModified.ID);
@@ -150,9 +153,10 @@ package combat
 					statToModify.Value += e.Value;
 					if (e.StatModified.ID == EStat.HEALTH.ID)
 					{
+						statToModify.Value = Math.max(0, Math.min(statToModify.Value, statToModify.OriginalValue));
 						(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.GetStatByID(EStat.HEALTH.ID).Value / mPlayer.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 					}
-					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
+					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, color, new Point(70, 500));
 				}
 			}
 			else
@@ -169,7 +173,7 @@ package combat
 						}
 						(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.GetStatByID(EStat.HEALTH.ID).Value / mEnemy.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 					}
-					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, color, new Point(mEnemy.View.x + (mEnemy.View.width / 2), 500));
 				}
 				
 				Shake(12);

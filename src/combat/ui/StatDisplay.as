@@ -17,6 +17,7 @@ package combat.ui
 		public function StatDisplay(aText:String, aColor:uint = 0x0) 
 		{
 			mTextField = new TextField();
+			mTextField.mouseEnabled = false;
 			
 			mTextField.text = aText;
 			mTextField.selectable = false;

@@ -5,12 +5,12 @@ package util
 	 * ...
 	 * @author 
 	 */
-	public class SlapSound 
+	public class DickHitSound 
 	{
-		[Embed(source = "../../bin/assets/slap.mp3")]
+		[Embed(source = "../../bin/assets/dick_hit.mp3")]
 		private var mSoundClass:Class;
 		private var mSound:Sound;
-		public function SlapSound() 
+		public function DickHitSound() 
 		{
 			mSound = new mSoundClass();
 			mSound.play();

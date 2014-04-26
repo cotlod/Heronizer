@@ -10,6 +10,7 @@ package combat.skill
 	import combat.Stat;
 	import combat.State;
 	import util.GameTime;
+	import util.ToastAttackSound;
 	/**
 	 * ...
 	 * @author 
@@ -70,7 +71,7 @@ package combat.skill
 				}
 				
 				mState = mStateList[1];
-				
+				new ToastAttackSound();
 				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, -damage, ETarget.OTHER));
 				mAttackTimer = 0;
 			}

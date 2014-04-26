@@ -26,6 +26,7 @@ package combat
 		public function DisplayStat(aText:String, aColor:uint, aPosition:Point):void
 		{
 			var tempDisplay:StatDisplay = new StatDisplay(aText, aColor);
+			tempDisplay.mouseEnabled = false;
 			tempDisplay.x = aPosition.x;
 			tempDisplay.y = aPosition.y;
 			addChild(tempDisplay);

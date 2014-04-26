@@ -26,10 +26,10 @@ package combat
 		static public var DEAD:ESkill = new ESkill(2, "Dead", DeadSkill, 2, EStat.RESPAWN_RATE, EStat.HEALTH);
 		static public var TOAST:ESkill = new ESkill(3, "Toast", ToastSkill, 10, EStat.ATTACK, EStat.SPEED, EStat.SKILL_DURATION, EStat.CRIT_CHANCE, EStat.XP_MODIFIER);
 		static public var WARP:ESkill = new ESkill(4, "Warp", WarpSkill, 2);
-		static public var PINCER:ESkill = new ESkill(5, "Pincer", PincerSkill, 25, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
-		static public var FIRE:ESkill = new ESkill(6, "Fire", FireSkill, 15, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
+		static public var PINCER:ESkill = new ESkill(5, "Pincer", PincerSkill, 15, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
+		static public var FIRE:ESkill = new ESkill(6, "Fire", FireSkill, 10, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
 		static public var DEATH_DEALER:ESkill = new ESkill(7, "DeathDealer", DeathDealerSkill, 10);
-		static public var MEGA_DICK:ESkill = new ESkill(8, "MegaDick", MegaDickSkill, 30, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
+		static public var MEGA_DICK:ESkill = new ESkill(8, "MegaDick", MegaDickSkill, 20, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
 		static public var ROID_UP:ESkill = new ESkill(9, "RoidUp", RoidUpSkill, 5, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
 		static public var MIDGET:ESkill = new ESkill(10, "Midget", MidgetSkill, 5, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
 		static public var HEALER:ESkill = new ESkill(11, "Healer", HealerSkill, 10, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE);
