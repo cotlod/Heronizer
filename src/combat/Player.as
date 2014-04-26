@@ -78,6 +78,7 @@ package combat
 		{
 			super.Update();
 		}
+
 	}
 
 }

@@ -51,6 +51,8 @@ package combat
 		
 		public function get Type():ESkill { return(mType); }
 		public function get State():int { return(mState); }
+		public function get Elapsed():Number { return(mElapsed); }
+		public function get Duration():Number { return(mDuration); }
 		
 		public function Update():void 
 		{

@@ -34,7 +34,6 @@ package combat
 			mPlayer.addEventListener(SkillEvent.STAT_MODIFIER, OnPlayerSkillStatModifier);
 			mPlayer.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnPlayerReceivedDamage);
 			mPlayer.addEventListener(CharacterEvent.CHANGED_SKILL, OnPlayerChangedSkill);
-			mPlayer.addEventListener(CharacterEvent.SKILL_COOLDOWN_UPDATE, OnPlayerCooldownUpdate);
 			mPlayer.addEventListener(CharacterEvent.DIED, OnPlayerDied);
 			//mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
 			mEnemy.addEventListener(SkillEvent.STAT_MODIFIER, OnEnemySkillStatModifier);
@@ -64,11 +63,6 @@ package combat
 			(mView as CombatView).AddXP(xp);
 			dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
 			OnCombatOver();
-		}
-		
-		private function OnPlayerCooldownUpdate(e:CharacterEvent):void 
-		{
-			(mView as CombatView).SetSkillCooldown(e.Value);
 		}
 		
 		private function OnPlayerChangedSkill(e:CharacterEvent):void 
@@ -148,6 +142,8 @@ package combat
 		
 		override public function Update():void
 		{
+			(mView as CombatView).SetSkillCooldown(mPlayer.CurrentSkill.Elapsed / mPlayer.CurrentSkill.Duration);
+			
 			mPlayer.Update();
 			mEnemy.Update();
 			mView.Update();

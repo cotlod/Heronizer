@@ -135,6 +135,11 @@ package combat
 				//mAttackHitTimer = 0;
 			}
 		}
+				
+		public function get CurrentSkill():Skill 
+		{
+			return(mCurrentSkill);
+		}
 		
 		override public function Update():void
 		{
