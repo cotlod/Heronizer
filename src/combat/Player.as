@@ -24,12 +24,10 @@ package combat
 		private var mPlayerDeadVisual:Bitmap;
 		private var mSkillTimer:Number = 0;
 		
-		public var XpModifier:Stat = new Stat(1, 0, EStat.XP_MODIFIER);
-		
 		public function Player() 
 		{
 			super();
-			mStatList.push(XpModifier);
+			mCharacterStat.AddStat(new Stat(1, 0, EStat.XP_MODIFIER));
 			Name = "Player";
 			mPlayerIdleVisual = new mPlayerIdleClass();
 			mPlayerAttackVisual = new mPlayerAttackClass();
@@ -78,6 +76,7 @@ package combat
 		{
 			super.Update();
 		}
+
 
 	}
 

@@ -14,18 +14,13 @@ package combat
 	 */
 	public class BaseCharacter extends BaseController
 	{
-		protected var Name:String = "";
-		public var Health:Stat = new Stat(10, 0, EStat.HEALTH);
-		public var Speed:Stat = new Stat(1, 0, EStat.SPEED);
-		public var Attack:Stat = new Stat(1, 0, EStat.ATTACK);
-		public var Defense:Stat = new Stat(1, 0, EStat.DEFENSE);
-		public var CriticalChance:Stat = new Stat(10, 0, EStat.CRIT_CHANCE);
-		public var RespawnRate:Stat = new Stat(0, 0, EStat.RESPAWN_RATE);
+		protected var Name:String = "";		
 		
-		public var mStatList:Vector.<Stat> = new Vector.<Stat>();
 		public var mSkillList:Vector.<ESkill> = new Vector.<ESkill>();
 		
 		private var mCurrentState:int = EState.IDLE;
+		
+		protected var mCharacterStat:CharacterStat;
 		
 		protected var mCurrentSkill:Skill;
 		
@@ -34,12 +29,14 @@ package combat
 			mView = new CharacterView();
 			mView.y = OffsetValues.CHARACTERS_Y_OFFSET;
 			
-			mStatList.push(Health);
-			mStatList.push(Speed);
-			mStatList.push(Attack);
-			mStatList.push(Defense);
-			mStatList.push(CriticalChance);
-			mStatList.push(RespawnRate);
+			mCharacterStat = new CharacterStat();
+			
+			mCharacterStat.AddStat(new Stat(10, 0, EStat.HEALTH));
+			mCharacterStat.AddStat(new Stat(1, 0, EStat.SPEED));
+			mCharacterStat.AddStat(new Stat(1, 0, EStat.ATTACK));
+			mCharacterStat.AddStat(new Stat(1, 0, EStat.DEFENSE));
+			mCharacterStat.AddStat(new Stat(10, 0, EStat.CRIT_CHANCE));
+			mCharacterStat.AddStat(new Stat(0, 0, EStat.RESPAWN_RATE));
 			
 			mSkillList.push(ESkill.DEFAULT_SKILL);
 		}
@@ -76,13 +73,11 @@ package combat
 				
 				for (var i:int = 0; i < mCurrentSkill.Type.StatList.length; i++) 
 				{
-					for (var j:int = 0; j < mStatList.length; j++) 
+					var stat:Stat = mCharacterStat.GetStatByID(mCurrentSkill.Type.StatList[i].ID);
+					
+					if (stat)
 					{
-						if (mStatList[j].Type.ID == mCurrentSkill.Type.StatList[i].ID)
-						{
-							characterStatList.push(mStatList[j]);
-							break;
-						}
+						characterStatList.push(stat);
 					}
 				}
 				
@@ -106,16 +101,28 @@ package combat
 			SetSkill(skill);
 		}
 		
+		public function GetStatByID(aStatID:int):Stat
+		{
+			return(mCharacterStat.GetStatByID(aStatID));
+		}
+		
+		public function GetStatList():Vector.<Stat>
+		{
+			return(mCharacterStat.GetList());
+		}
+		
 		public function ReceiveDamage(aDamage:int):void
 		{
 			if (mCurrentState == EState.DEAD) { return; }
 			
-			var finalDamage:int = aDamage / Defense.Value;
+			var finalDamage:int = aDamage / GetStatByID(EStat.DEFENSE.ID).Value;
+			
 			trace(Name + " received " + finalDamage + " to the face.");
-			Health.Value -= finalDamage;
+			
+			GetStatByID(EStat.HEALTH.ID).Value -= finalDamage;
 			dispatchEvent(new CharacterEvent(CharacterEvent.RECEIVED_DAMAGE, aDamage));
 			
-			if (Health.Value <= 0)
+			if (GetStatByID(EStat.HEALTH.ID).Value <= 0)
 			{
 				SetSkill(new DeadSkill());
 			}

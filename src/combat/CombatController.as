@@ -59,7 +59,7 @@ package combat
 		private function OnEnemyDied(e:CharacterEvent):void 
 		{
 			//enemy died, give XP
-			var xp:Number = 1 * mPlayer.XpModifier.Value;
+			var xp:Number = 1 * mPlayer.GetStatByID(EStat.XP_MODIFIER.ID).Value;
 			(mView as CombatView).AddXP(xp);
 			dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
 			OnCombatOver();
@@ -73,21 +73,21 @@ package combat
 		private function OnEnemyReceivedDamage(e:CharacterEvent):void 
 		{
 			(mView as CombatView).DisplayStat("-" + e.Value + " HP", 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
-			(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.Health.Value / mEnemy.Health.OriginalValue);
+			(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.GetStatByID(EStat.HEALTH.ID).Value / mEnemy.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 		}
 		
 		private function OnPlayerReceivedDamage(e:CharacterEvent):void 
 		{
 			(mView as CombatView).DisplayStat("-" + e.Value + " HP", 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
-			(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.Health.Value / mPlayer.Health.OriginalValue);
+			(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.GetStatByID(EStat.HEALTH.ID).Value / mPlayer.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 		}
 		
 		private function OnEnemyAttack(e:CharacterEvent):void 
 		{
 			if (!mCombatOver)
 			{
-				var damage:Number = mEnemy.Attack.Value;
-				var critRatio:Number = mEnemy.CriticalChance.Value / 100;
+				var damage:Number = mEnemy.GetStatByID(EStat.ATTACK.ID).Value;
+				var critRatio:Number = mEnemy.GetStatByID(EStat.CRIT_CHANCE.ID).Value / 100;
 				if (Math.random() <= critRatio)
 				{
 					//CRITICAL
@@ -103,8 +103,8 @@ package combat
 		{
 			if (!mCombatOver)
 			{
-				var damage:Number = mPlayer.Attack.Value;
-				var critRatio:Number = mPlayer.CriticalChance.Value / 100;
+				var damage:Number = mPlayer.GetStatByID(EStat.ATTACK.ID).Value;
+				var critRatio:Number = mPlayer.GetStatByID(EStat.CRIT_CHANCE.ID).Value / 100;
 				if (Math.random() <= critRatio)
 				{
 					//CRITICAL
@@ -124,7 +124,7 @@ package combat
 		public function SetSkillUpdate(aSkillUpdate:SkillUpdate):void
 		{
 			//update stats with modifiers
-			for each(var playerStat:Stat in mPlayer.mStatList)
+			for each(var playerStat:Stat in mPlayer.GetStatList())
 			{
 				playerStat.Value = playerStat.OriginalValue;
 				var modifierList:Vector.<Stat> = aSkillUpdate.GetStatListById(playerStat.Type.ID);
