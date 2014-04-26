@@ -33,6 +33,8 @@ package
 			mSkillTreeController = new SkillTreeController();
 			
 			addChild(mCombatController.View);
+			
+			mSkillTreeController.View.x = mCombatController.View.x + mCombatController.View.width;
 			addChild(mSkillTreeController.View);
 			
 			addEventListener(Event.ENTER_FRAME, Update);

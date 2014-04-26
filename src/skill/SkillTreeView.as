@@ -1,5 +1,6 @@
 package skill 
 {
+	import flash.display.Sprite;
 	import mvc.BaseView;
 	/**
 	 * ...
@@ -7,12 +8,46 @@ package skill
 	 */
 	public class SkillTreeView extends BaseView
 	{
+		private var mMask:Sprite;
 		
 		public function SkillTreeView() 
 		{
+			mMask = new Sprite();
 			
+			mMask.graphics.beginFill(0x000000);
+			mMask.graphics.drawRect(0, 0, 615, 768);
+			mMask.graphics.endFill();
+			mMask.mouseEnabled = false;
+			mMask.visible = false;
+			addChild(mMask);
+			
+			mask = mMask;
+			
+			graphics.beginFill(0xCCFFFF);
+			graphics.drawRect(0, 0, 615, 768);
+			graphics.endFill();
 		}
 		
+		public function Render(aSkillNode:SkillNode):void
+		{
+			var connectionList:Vector.<SkillNode> = aSkillNode.Connection.NodeList
+			
+			for (var i:int = 0; i < connectionList.length; i++) 
+			{
+				graphics.lineStyle(2, 0x000000);
+				graphics.moveTo(aSkillNode.Position.x, aSkillNode.y);
+				graphics.lineTo(connectionList[i].Position.x, connectionList[i].y);
+			}
+			
+			addChild(aSkillNode);
+		}
+		
+		override public function Update():void 
+		{
+			graphics.clear();
+			
+			super.Update();
+		}
 	}
 
 }
