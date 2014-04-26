@@ -114,6 +114,8 @@ package skill
 			
 			if ((node == firstNode || node.Connection.IsAvailable()) && node.XPGate <= mCurrentXP)
 			{
+				mCurrentXP -= node.XPGate;
+				
 				node.Unlocked = true;
 				
 				dispatchEvent(new SkillTreeEvent(SkillTreeEvent.SKILL_CHANGED));
@@ -233,9 +235,9 @@ package skill
 			return(skillUpdate);
 		}
 		
-		public function SetXP(aXP:int):void 
+		public function AddXP(aXP:int):void 
 		{
-			mCurrentXP = aXP
+			mCurrentXP += aXP
 		}
 		
 		override public function Update():void 
