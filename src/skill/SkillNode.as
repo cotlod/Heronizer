@@ -33,22 +33,28 @@ package skill
 			mStat = aStat;
 			mSkill = aSkill;
 			
+			mNodeConnection = new NodeConnection();
+			mPosition = new Point();
+		}
+		
+		public function SetDescription():void
+		{
 			mDescription = new TextField();
 			mDescription.selectable = false;
 			mDescription.mouseEnabled = false;
 			
-			if (aStat)
+			if (mStat)
 			{
-				mDescription.text = aStat.Type.Name;
+				mDescription.text = mStat.Type.Name;
 			}
 			else
 			{
-				mDescription.text = aSkill.Type.Name
+				mDescription.text = mSkill.Type.Name
 			}
 			
+			mDescription.text += "\n" + mXPGate;
+			
 			addChild(mDescription);
-			mNodeConnection = new NodeConnection();
-			mPosition = new Point();
 		}
 		
 		public function get Position():Point { return(mPosition); }

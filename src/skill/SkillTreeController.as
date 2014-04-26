@@ -92,7 +92,8 @@ package skill
 				}
 				
 				mCurrentNode = new SkillNode(randomStat, randomSkill);
-				
+				mCurrentNode.XPGate = int(Math.random() * 400);
+				mCurrentNode.SetDescription();
 				mCurrentNode.Position.x = mSkillTreeView.mouseX - mScrollOffset.x;
 				mCurrentNode.Position.y = mSkillTreeView.mouseY - mScrollOffset.y;
 				
@@ -215,7 +216,26 @@ package skill
 		{
 			var skillUpdate:SkillUpdate = new SkillUpdate();
 			
+			for (var i:int = 0; i < mSkillTreeModel.SkillNodeList.length; i++) 
+			{
+				if (!mSkillTreeModel.SkillNodeList[i].Unlocked) { continue; }
+				
+				if (mSkillTreeModel.SkillNodeList[i].NodeStat)
+				{
+					skillUpdate.StatList.push(mSkillTreeModel.SkillNodeList[i].NodeStat);
+				}
+				else
+				{
+					skillUpdate.SkillList.push(mSkillTreeModel.SkillNodeList[i].NodeSkill);
+				}
+			}
+			
 			return(skillUpdate);
+		}
+		
+		public function SetXP(aXP:int):void 
+		{
+			mCurrentXP = aXP
 		}
 		
 		override public function Update():void 
@@ -229,11 +249,6 @@ package skill
 			RenderView();
 			
 			ResetNodeList();
-		}
-		
-		public function SetXP(aXP:int):void 
-		{
-			mCurrentXP = aXP
 		}
 	}
 }
