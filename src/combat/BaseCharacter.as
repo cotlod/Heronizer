@@ -138,24 +138,6 @@ package combat
 		override public function Update():void
 		{
 			mCurrentSkill.Update();
-<<<<<<< HEAD
-=======
-			
-			mAttackTimer += GameTime.DeltaTime;
-			if (mAttackTimer >= Speed.Value)
-			{
-				dispatchEvent(new CharacterEvent(CharacterEvent.ATTACK));
-				mAttackTimer = mAttackTimer - Speed.Value;
-			}
-			if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
-			{
-				mAttackHitTimer += GameTime.DeltaTime;
-				if (mAttackHitTimer >= TIME_IN_ATTACK_HIT_STATE)
-				{
-					SetState(EState.IDLE);
-				}
-			}
->>>>>>> 745fd5112b0ff1bf54edfee341ff90a865d5257b
 		}
 	}
 
