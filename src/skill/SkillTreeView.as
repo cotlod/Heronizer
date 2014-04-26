@@ -1,5 +1,6 @@
 package skill 
 {
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.geom.Point;
 	import mvc.BaseView;
@@ -9,8 +10,10 @@ package skill
 	 */
 	public class SkillTreeView extends BaseView
 	{
+		[Embed(source="../../bin/assets/UI_BG.png")]
+		private var mBackgroundClass:Class;
 		private var mMask:Sprite;
-		private var mBackground:Sprite;
+		private var mBackground:Bitmap;
 		private var mPathContainer:Sprite;
 		private var mScrollOffset:Point;
 		
@@ -19,19 +22,19 @@ package skill
 			mMask = new Sprite();
 			
 			mMask.graphics.beginFill(0x000000);
-			mMask.graphics.drawRect(0, 0, 615, 768);
+			mMask.graphics.drawRect(0, 0, 624, 768);
 			mMask.graphics.endFill();
 			//mMask.visible = false;
 			addChild(mMask);
 			
 			mask = mMask;
 			
-			mBackground  = new Sprite();
+			mBackground = new mBackgroundClass();
 			
-			mBackground.graphics.beginFill(0xCCFFFF);
-			mBackground.graphics.drawRect(0, 0, 615, 768);
-			mBackground.graphics.endFill();
-			mBackground.mouseEnabled = false;
+			/*mBackground.graphics.beginFill(0xCCFFFF);
+			mBackground.graphics.drawRect(0, 0, 624, 768);
+			mBackground.graphics.endFill();*/
+			//mBackground.mouseEnabled = false;
 			addChild(mBackground);
 			
 			mPathContainer = new Sprite();

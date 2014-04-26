@@ -72,7 +72,7 @@ package combat
 			mCurrentSkill.addEventListener(SkillEvent.STATE, OnSkillStateChange);
 			mCurrentSkill.addEventListener(SkillEvent.CHANGE_BACKGROUND, OnSkillChangeBackground);
 			
-			if (mCurrentSkill.Type.StatList)
+			if (mCurrentSkill.Type.StatList.length > 0)
 			{
 				var characterStatList:Vector.<Stat> = new  Vector.<Stat>();
 				
