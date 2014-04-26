@@ -8,6 +8,8 @@ package combat
 	{
 		static private var mEStatList:Vector.<EStat> = new Vector.<EStat>();
 		
+		static public var NOT_FOUND:EStat = new EStat( -1, "NotFound");
+		
 		static public var HEALTH:EStat = new EStat(0, "Health");
 		static public var SPEED:EStat = new EStat(1, "Speed");
 		static public var ATTACK:EStat = new EStat(2, "Attack");
@@ -15,6 +17,7 @@ package combat
 		static public var SKILL_DURATION:EStat = new EStat(4, "SkillDuration");
 		static public var CRIT_CHANCE:EStat = new EStat(5, "CritChance");
 		static public var XP_MODIFIER:EStat = new EStat(6, "XpModifier");
+		
 		
 		public var ID:int;
 		public var Name:String;
@@ -39,7 +42,7 @@ package combat
 				}
 			}
 			
-			return(null);
+			return(NOT_FOUND);
 		}
 	}
 

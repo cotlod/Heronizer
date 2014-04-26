@@ -57,6 +57,7 @@ package skill
 			mDescription.multiline = true;
 			
 			mDescription.appendText(mID.toString());
+			
 			if (mStat)
 			{
 				mDescription.appendText("\n +" + mStat.Value + " " + mStat.Type.Name);
