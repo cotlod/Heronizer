@@ -5,7 +5,9 @@ package skill
 	import combat.EStat;
 	import combat.Skill;
 	import combat.Stat;
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import flash.filters.GlowFilter;
 	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
@@ -19,12 +21,20 @@ package skill
 	 */
 	public class SkillNode extends Sprite implements IUpdatable, ISerializable
 	{
+		[Embed(source="../../bin/assets/UI_NodeLocked.png")]
+		private var NodeLockedClass:Class;
+		private var mNodeLockedBitmap:Bitmap;
+		[Embed(source="../../bin/assets/UI_NodeUnlocked.png")]
+		private var NodeUnlockedClass:Class;
+		private var mNodeUnlockedBitmap:Bitmap;
+		
 		private var mID:int;
 		
 		private var mStat:Stat;
 		private var mSkill:Skill;
 		
 		private var mPosition:Point;
+		private var mCurrentImage:Bitmap = null;
 		
 		private var mNodeConnection:NodeConnection;
 		
@@ -43,13 +53,18 @@ package skill
 			
 			mNodeConnection = new NodeConnection();
 			mPosition = new Point();
+			mNodeLockedBitmap = new NodeLockedClass();
+			mNodeUnlockedBitmap = new NodeUnlockedClass();
+			
+			addChild(mNodeLockedBitmap);
+			mCurrentImage = mNodeLockedBitmap;
 		}
 		
 		public function SetDescription():void
 		{
 			mDescription = new TextField();
-			mDescription.x = -15;
-			mDescription.y = -15;
+			mDescription.x = (width / 2) - 15;
+			mDescription.y = (height / 2) - 20;
 			mDescription.width = 30;
 			mDescription.selectable = false;
 			mDescription.mouseEnabled = false;
@@ -69,7 +84,8 @@ package skill
 			
 			mDescription.appendText("\n Cost " + mXPGate);
 			
-			mDescription.setTextFormat(new TextFormat("Helvetica", 12, null,null,null,null,null,null,TextFormatAlign.CENTER))
+			mDescription.setTextFormat(new TextFormat("Helvetica", 12, 0x000000, true, null, null, null, null, TextFormatAlign.CENTER))
+			mDescription.filters = [new GlowFilter(0xFFFFFF, 1, 6, 6, 3)];
 			addChild(mDescription);
 		}
 		
@@ -84,7 +100,20 @@ package skill
 		public function set XPGate(aValue:int):void { mXPGate = aValue; }
 		
 		public function get Unlocked():Boolean { return(mUnlocked); }
-		public function set Unlocked(aValue:Boolean):void { mUnlocked = aValue; }
+		public function set Unlocked(aValue:Boolean):void
+		{
+			mUnlocked = aValue;
+			removeChild(mCurrentImage);
+			if (mUnlocked)
+			{
+				mCurrentImage = mNodeUnlockedBitmap;
+			}
+			else
+			{
+				mCurrentImage = mNodeLockedBitmap;
+			}
+			addChild(mCurrentImage);
+		}
 		
 		public function get Rendered():Boolean { return(mRendered); }
 		public function set Rendered(aValue:Boolean):void { mRendered = aValue; }
@@ -116,6 +145,16 @@ package skill
 			mPosition.x = jsonObject.position.x;
 			mPosition.y = jsonObject.position.y;
 			mUnlocked = jsonObject.unlocked;
+			removeChild(mCurrentImage);
+			if (mUnlocked)
+			{
+				mCurrentImage = mNodeUnlockedBitmap;
+			}
+			else
+			{
+				mCurrentImage = mNodeLockedBitmap;
+			}
+			addChild(mCurrentImage);
 			mXPGate = jsonObject.xpGate;
 			
 			SetDescription();
@@ -141,8 +180,8 @@ package skill
 			x = mPosition.x;
 			y = mPosition.y;
 			
-			graphics.clear();
-			if (Unlocked)
+			//graphics.clear();
+			/*if (Unlocked)
 			{
 				graphics.beginFill(0x00FF00);
 			}
@@ -151,7 +190,7 @@ package skill
 				graphics.beginFill(0xFF0000);
 			}
 			graphics.drawCircle(0, 0, 30);
-			graphics.endFill();
+			graphics.endFill();*/
 		}		
 	}
 }

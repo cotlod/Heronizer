@@ -62,8 +62,8 @@ package skill
 				
 				if (connectingNode.Rendered) { continue; }
 				
-				mPathContainer.graphics.moveTo(aSkillNode.Position.x + mScrollOffset.x, aSkillNode.Position.y + mScrollOffset.y);
-				mPathContainer.graphics.lineTo(connectingNode.Position.x + mScrollOffset.x, connectingNode.Position.y + mScrollOffset.y);
+				mPathContainer.graphics.moveTo(aSkillNode.Position.x + (aSkillNode.width / 2) + mScrollOffset.x, aSkillNode.Position.y + (aSkillNode.height / 2) + mScrollOffset.y);
+				mPathContainer.graphics.lineTo(connectingNode.Position.x + (aSkillNode.width / 2) + mScrollOffset.x, connectingNode.Position.y + (aSkillNode.height / 2) + mScrollOffset.y);
 			}
 			
 			aSkillNode.x = aSkillNode.Position.x + mScrollOffset.x;

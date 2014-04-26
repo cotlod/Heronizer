@@ -3,6 +3,7 @@ package combat.ui
 	import combat.ECharacter;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import flash.filters.GlowFilter;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import util.OffsetValues;
@@ -32,18 +33,21 @@ package combat.ui
 			mUIFrame02 = new mUIFrame02Class();
 			
 			mXP = new TextField();
-			var tempFormat:TextFormat = new TextFormat("Arial", 16, 0xB200FF, true);
-			mXP.text = "0 XP";
+			var tempFormat:TextFormat = new TextFormat("Helvetica", 20, 0xFFFFFF, true);
+			mXP.text = "0";
 			mXP.defaultTextFormat = tempFormat;
 			mXP.setTextFormat(tempFormat);
+			mXP.filters = [new GlowFilter(0x000000)];
 			
+			addChild(mUIFrame01);
+			addChild(mUIFrame02);
 			addChild(mPlayerHealthBar);
 			addChild(mEnemyHealthBar);
 			addChild(mXP);
 			addChild(mSkillCountdownBar);
-			addChild(mUIFrame01);
-			addChild(mUIFrame02);
 			
+			mXP.x = OffsetValues.XP_TEXTFIELD_X_OFFSET;
+			mXP.y = OffsetValues.XP_TEXTFIELD_Y_OFFSET;
 			mPlayerHealthBar.y = OffsetValues.HEALTH_BARS_Y_OFFSET;
 			mEnemyHealthBar.y = OffsetValues.HEALTH_BARS_Y_OFFSET;
 			mEnemyHealthBar.x = OffsetValues.COMBAT_VIEW_WIDTH - mEnemyHealthBar.width;
@@ -76,7 +80,7 @@ package combat.ui
 		
 		public function AddXP(aValue:Number):void
 		{
-			mXP.text = aValue.toString() + " XP";
+			mXP.text = aValue.toString();
 		}
 	}
 }
