@@ -14,6 +14,7 @@ package combat
 		private var mElapsed:Number
 		private var mStarted:Boolean;
 		private var mCompleted:Boolean;
+		protected var mState:int = EState.IDLE;
 		protected var mDuration:Number;
 		
 		public function Skill(aType:ESkill) 
@@ -54,5 +55,7 @@ package combat
 				dispatchEvent(new SkillEvent(SkillEvent.DONE));
 			}
 		}
+		
+		public function get State():int { return(mState); }
 	}
 }

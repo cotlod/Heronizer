@@ -57,7 +57,7 @@ package combat
 		
 		private function OnSkillStarted(aEvent:Event):void 
 		{
-			
+			SetState(mCurrentSkill.State);
 		}
 		
 		private function OnSkillDone(aEvent:Event):void 
