@@ -2,6 +2,8 @@ package combat.ui
 {
 	import combat.ECharacter;
 	import flash.display.Sprite;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import util.OffsetValues;
 	/**
 	 * ...
@@ -11,18 +13,24 @@ package combat.ui
 	{
 		private var mPlayerHealthBar:HealthBar;
 		private var mEnemyHealthBar:HealthBar;
-		private var mXPBar:XPBar;
+		private var mXP:TextField;
 		private var mSkillCountdownBar:SkillCountdown;
 		public function Hud() 
 		{
 			mPlayerHealthBar = new HealthBar();
 			mEnemyHealthBar = new HealthBar();
-			mXPBar = new XPBar();
+			mXP = new TextField();
 			mSkillCountdownBar = new SkillCountdown();
+			
+			mXP = new TextField();
+			var tempFormat:TextFormat = new TextFormat("Arial", 16, 0xB200FF, true);
+			mXP.text = "0 XP";
+			mXP.defaultTextFormat = tempFormat;
+			mXP.setTextFormat(tempFormat);
 			
 			addChild(mPlayerHealthBar);
 			addChild(mEnemyHealthBar);
-			addChild(mXPBar);
+			addChild(mXP);
 			addChild(mSkillCountdownBar);
 			
 			mPlayerHealthBar.y = OffsetValues.HEALTH_BARS_Y_OFFSET;
@@ -52,6 +60,11 @@ package combat.ui
 		public function SetSkillCooldown(aRatio:Number):void
 		{
 			mSkillCountdownBar.SetRatio(aRatio);
+		}
+		
+		public function AddXP(aValue:Number):void
+		{
+			mXP.text = aValue.toString() + " XP";
 		}
 	}
 }

@@ -45,7 +45,7 @@ package
 		
 		private function OnXPChanged(aEvent:CharacterEvent):void 
 		{
-			mSkillTreeController.AddXP(0 /*TODO: Update XP*/);
+			mSkillTreeController.AddXP(aEvent.Value);
 		}
 		
 		private function OnSkillChanged(aEvent:SkillTreeEvent):void 

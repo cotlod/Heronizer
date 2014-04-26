@@ -43,6 +43,11 @@ package combat
 			mHud.SetSkillCooldown(aRatio);
 		}
 		
+		public function AddXP(aValue:Number):void
+		{
+			mHud.AddXP(aValue);
+		}
+		
 		private function OnStatDisplayComplete(e:Event):void 
 		{
 			var statDisplay:StatDisplay = e.target as StatDisplay;

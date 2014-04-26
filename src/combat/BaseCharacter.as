@@ -16,6 +16,7 @@ package combat
 		public var Attack:Stat = new Stat(1, 0, EStat.ATTACK);
 		public var Defense:Stat = new Stat(1, 0, EStat.DEFENSE);
 		public var SkillDuration:Stat = new Stat(20, 0, EStat.SKILL_DURATION);
+		public var XpModifier:Stat = new Stat(1, 0, EStat.XP_MODIFIER);
 		
 		private var mAttackTimer:Number = 0;
 		

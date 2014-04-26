@@ -30,11 +30,20 @@ package combat
 			mPlayer.addEventListener(CharacterEvent.SKILL_COOLDOWN_UPDATE, OnPlayerCooldownUpdate);
 			mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
+			mEnemy.addEventListener(CharacterEvent.DIED, OnEnemyDied);
+		}
+		
+		private function OnEnemyDied(e:CharacterEvent):void 
+		{
+			//enemy died, give XP
+			var xp:Number = 1 * mPlayer.XpModifier.Value;
+			(mView as CombatView).AddXP(xp);
+			dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
 		}
 		
 		private function OnPlayerCooldownUpdate(e:CharacterEvent):void 
 		{
-			(mView as CombatView).SetSkillCooldown(e.Ratio);
+			(mView as CombatView).SetSkillCooldown(e.Value);
 		}
 		
 		private function OnPlayerChangedSkill(e:CharacterEvent):void 

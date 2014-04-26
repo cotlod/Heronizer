@@ -15,16 +15,16 @@ package combat.event
 		public static const CHANGED_SKILL:String = "Character_ChangedSkill";
 		public static const SKILL_COOLDOWN_UPDATE:String = "Character_Cooldown_Update";
 		
-		public var Ratio:Number = 1;
-		public function CharacterEvent(type:String, aRatio:Number = 1, bubbles:Boolean=false, cancelable:Boolean=false) 
+		public var Value:Number = 1;
+		public function CharacterEvent(type:String, aValue:Number = 1, bubbles:Boolean=false, cancelable:Boolean=false) 
 		{ 
-			Ratio = aRatio;
+			Value = aValue;
 			super(type, bubbles, cancelable);
 		} 
 		
 		public override function clone():Event 
 		{ 
-			return new CharacterEvent(type, Ratio, bubbles, cancelable);
+			return new CharacterEvent(type, Value, bubbles, cancelable);
 		} 
 		
 		public override function toString():String 
