@@ -28,6 +28,7 @@ package combat
 			var finalDamage:int = aDamage / Defense.Value;
 			trace(Name + " received " + finalDamage + " to the face.");
 			Health.Value -= finalDamage;
+			dispatchEvent(new CharacterEvent(CharacterEvent.RECEIVED_DAMAGE));
 			if (Health.Value <= 0)
 			{
 				trace(Name + " is DEAD.");

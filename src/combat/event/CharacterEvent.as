@@ -9,6 +9,7 @@ package combat.event
 	public class CharacterEvent extends Event 
 	{
 		public static const ATTACK:String = "Character_Attack";
+		public static const RECEIVED_DAMAGE:String = "Character_Received_Damage";
 		public static const DIED:String = "Character_Died";
 		public function CharacterEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false) 
 		{ 

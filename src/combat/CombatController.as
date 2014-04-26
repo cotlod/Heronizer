@@ -1,6 +1,7 @@
 package combat 
 {
 	import combat.event.CharacterEvent;
+	import flash.geom.Point;
 	import mvc.BaseController;
 	import util.GameTime;
 	/**
@@ -23,7 +24,19 @@ package combat
 			
 			//event listeners
 			mPlayer.addEventListener(CharacterEvent.ATTACK, OnPlayerAttack);
+			mPlayer.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnPlayerReceivedDamage);
 			mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
+			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
+		}
+		
+		private function OnEnemyReceivedDamage(e:CharacterEvent):void 
+		{
+			(mView as CombatView).DisplayStat("-" + mPlayer.Attack.Value + " HP", 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+		}
+		
+		private function OnPlayerReceivedDamage(e:CharacterEvent):void 
+		{
+			(mView as CombatView).DisplayStat("-" + mEnemy.Attack.Value + " HP", 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
 		}
 		
 		private function OnEnemyAttack(e:CharacterEvent):void 
@@ -40,6 +53,7 @@ package combat
 		{
 			mPlayer.Update();
 			mEnemy.Update();
+			mView.Update();
 		}
 	}
 
