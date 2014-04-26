@@ -11,7 +11,7 @@ package combat
 	{
 		protected var Name:String = "";
 		public var Health:Stat = new Stat(10, 0, EStat.HEALTH);
-		public var Speed:Stat = new Stat(10, 0, EStat.SPEED);
+		public var Speed:Stat = new Stat(5, 0, EStat.SPEED);
 		public var Attack:Stat = new Stat(1, 0, EStat.ATTACK);
 		public var Defense:Stat = new Stat(1, 0, EStat.DEFENSE);
 		public var SkillCooldown:Stat = new Stat(20, 0, EStat.SKILL_COOLDOWN);
@@ -21,6 +21,7 @@ package combat
 		public function BaseCharacter() 
 		{
 			mView = new CharacterView();
+			mView.y = 50;
 		}
 		
 		public function SendDamage(aDamage:int):void
