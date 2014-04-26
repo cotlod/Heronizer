@@ -18,7 +18,7 @@ package combat
 		
 		public var mSkillList:Vector.<ESkill> = new Vector.<ESkill>();
 		
-		private var mCurrentState:int = EState.IDLE;
+		public var mCurrentState:int = EState.IDLE;
 		
 		protected var mCharacterStat:CharacterStat;
 		

@@ -69,6 +69,10 @@ package combat
 					statToModify.Value += e.Value;
 					if (e.StatModified.ID == EStat.HEALTH.ID)
 					{
+						if (mPlayer.mCurrentState != EState.ATTACK)
+						{
+							mPlayer.SetState(EState.HIT);
+						}
 						(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.GetStatByID(EStat.HEALTH.ID).Value / mPlayer.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 					}
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
@@ -113,6 +117,10 @@ package combat
 					statToModify.Value += e.Value;
 					if (e.StatModified.ID == EStat.HEALTH.ID)
 					{
+						if (mEnemy.mCurrentState != EState.ATTACK)
+						{
+							mEnemy.SetState(EState.HIT);
+						}
 						(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.GetStatByID(EStat.HEALTH.ID).Value / mEnemy.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 					}
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));

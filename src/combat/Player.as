@@ -27,6 +27,8 @@ package combat
 		public function Player() 
 		{
 			super();
+			var speed:Stat = GetStatByID(EStat.SPEED.ID);
+			speed.Value = 0.8;
 			mCharacterStat.AddStat(new Stat(1, 0, EStat.XP_MODIFIER));
 			Name = "Player";
 			mPlayerIdleVisual = new mPlayerIdleClass();
@@ -35,7 +37,7 @@ package combat
 			mPlayerDeadVisual = new mPlayerDeadClass();
 			mView.addChild(mPlayerIdleVisual);
 			mView.y = OffsetValues.STAGE_HEIGHT - mView.height;
-			mSkillList.push(ESkill.WARP);
+			//mSkillList.push(ESkill.WARP);
 		}
 		
 		override public function SetState(aState:int):void 

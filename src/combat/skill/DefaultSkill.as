@@ -55,12 +55,11 @@ package combat.skill
 				
 				mState = EState.ATTACK;
 				
-				trace("ATTACK " + mAttackTimer);
 				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, -damage, ETarget.OTHER));
 				mAttackTimer = mAttackTimer - mSpeed.Value;
 				mAttackHitTimer = 0;
 			}
-			if (mState == EState.ATTACK)
+			else if (mState == EState.ATTACK || mState == EState.HIT)
 			{
 				mAttackHitTimer += GameTime.DeltaTime;
 				
