@@ -11,9 +11,9 @@ package combat
 	{
 		static private var mESkillList:Vector.<ESkill> = new Vector.<ESkill>()
 		
-		static public var DEFAULT_SKILL:ESkill = new ESkill(0, "DefaultSkill", DefaultSkill, 2, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE)
+		static public var DEFAULT_SKILL:ESkill = new ESkill(0, "DefaultSkill", DefaultSkill, 5, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE)
 		static public var DEAD:ESkill = new ESkill(1, "Dead", DeadSkill, 4, EStat.RESPAWN_RATE, EStat.HEALTH);
-		static public var TOAST:ESkill = new ESkill(2, "Toast", ToastSkill, 10, EStat.ATTACK, EStat.SKILL_DURATION, EStat.XP_MODIFIER);
+		static public var TOAST:ESkill = new ESkill(2, "Toast", ToastSkill, 10, EStat.ATTACK, EStat.SPEED, EStat.SKILL_DURATION, EStat.CRIT_CHANCE, EStat.XP_MODIFIER);
 		
 		public var ID:int;
 		public var Name:String;

@@ -7,6 +7,7 @@ package combat.skill
 	import combat.Skill;
 	import combat.skill.event.SkillEvent;
 	import combat.Stat;
+	import combat.State;
 	import util.GameTime;
 	/**
 	 * ...
@@ -14,16 +15,19 @@ package combat.skill
 	 */
 	public class DefaultSkill extends Skill
 	{
-		private static const TIME_IN_ATTACK_HIT_STATE:Number = 1;
+		private static const TIME_IN_ATTACK_HIT_STATE:Number = 0.5;
 		private var mAttackTimer:Number = 0;
 		private var mAttackHitTimer:Number = 0;
 		private var mSpeed:Stat;
 		private var mAttack:Stat;
 		private var mCritChance:Stat;
-		private var mVisualPrefix:String = "Heros_";
+		
 		public function DefaultSkill() 
 		{
 			super(ESkill.DEFAULT_SKILL);
+			
+			mStateList.push(new State(EState.ATTACK, "Strike"));
+			mStateList.push(new State(EState.HIT, "Hit"));
 		}
 		
 		override public function SetStat(aStatList:Vector.<Stat>):void 
@@ -55,9 +59,9 @@ package combat.skill
 				
 				mState = EState.ATTACK;
 				
-				trace("ATTACK");
 				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, -damage, ETarget.OTHER));
 				mAttackTimer = mAttackTimer - mSpeed.Value;
+				mAttackHitTimer = 0;
 			}
 			if (mState == EState.ATTACK)
 			{
@@ -66,7 +70,8 @@ package combat.skill
 				if (mAttackHitTimer >= TIME_IN_ATTACK_HIT_STATE)
 				{
 					mState = EState.IDLE;
-					dispatchEvent(new SkillEvent(SkillEvent.STATE))
+					dispatchEvent(new SkillEvent(SkillEvent.STATE));
+					mAttackHitTimer = mAttackHitTimer - TIME_IN_ATTACK_HIT_STATE;
 				}
 			}
 		}

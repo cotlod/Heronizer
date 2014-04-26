@@ -51,21 +51,25 @@ package combat
 			{
 				case EState.IDLE:
 				{
+					trace("SetState IDLE");
 					mView.addChild(mPlayerIdleVisual);
 					break;
 				}
 				case EState.ATTACK:
 				{
+					trace("SetState ATTACK");
 					mView.addChild(mPlayerAttackVisual);
 					break;
 				}
 				case EState.HIT:
 				{
+					trace("SetState HIT");
 					mView.addChild(mPlayerHitVisual);
 					break;
 				}
 				case EState.DEAD:
 				{
+					trace("SetState DEAD");
 					mView.addChild(mPlayerDeadVisual);
 					break;
 				}
