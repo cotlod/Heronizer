@@ -1,9 +1,11 @@
 package skill 
 {
+	import combat.ESkill;
 	import combat.Skill;
 	import combat.Stat;
 	import flash.display.Sprite;
 	import flash.geom.Point;
+	import flash.text.TextField;
 	import util.ISerializable;
 	import util.IUpdatable;
 	/**
@@ -24,8 +26,27 @@ package skill
 		
 		private var mXPGate:int;
 		
-		public function SkillNode() 
+		private var mDescription:TextField;
+		
+		public function SkillNode(aStat:Stat, aSkill:Skill) 
 		{
+			mStat = aStat;
+			mSkill = aSkill;
+			
+			mDescription = new TextField();
+			mDescription.selectable = false;
+			mDescription.mouseEnabled = false;
+			
+			if (aStat)
+			{
+				mDescription.text = aStat.Type.Name;
+			}
+			else
+			{
+				mDescription.text = aSkill.Type.Name
+			}
+			
+			addChild(mDescription);
 			mNodeConnection = new NodeConnection();
 			mPosition = new Point();
 		}
@@ -42,6 +63,10 @@ package skill
 		
 		public function get Rendered():Boolean { return(mRendered); }
 		public function set Rendered(aValue:Boolean):void { mRendered = aValue; }
+		
+		public function get NodeStat():Stat { return(mStat); }
+		
+		public function get NodeSkill():Skill { return(mSkill); }
 		
 		public function FromJSON(aJSON:String):void
 		{
