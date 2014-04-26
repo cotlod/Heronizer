@@ -19,6 +19,7 @@ package combat.ui
 			mTextField = new TextField();
 			
 			mTextField.text = aText;
+			mTextField.selectable = false;
 			mTextField.setTextFormat(new TextFormat("Arial", 14, aColor, true));
 			//mTextField.textColor = aColor;
 			addChild(mTextField);

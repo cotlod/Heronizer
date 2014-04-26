@@ -7,10 +7,10 @@ package combat.ui
 	 */
 	public class Hud extends Sprite
 	{
-		
+		private var mHealthBar:HealthBar;
 		public function Hud() 
 		{
-			
+			mHealthBar = new HealthBar();
 		}
 		
 	}
