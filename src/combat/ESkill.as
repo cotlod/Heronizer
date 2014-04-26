@@ -10,9 +10,8 @@ package combat
 	{
 		static private var mESkillList:Vector.<ESkill> = new Vector.<ESkill>()
 		
-		
-		static public var DEFAULT_SKILL:ESkill = new ESkill(0, "DefaultSkill", DefaultSkill, 10)
-		static public var DEAD:ESkill = new ESkill(1, "Dead", DeadSkill, 10, new Vector.<EStat>(EStat.RESPAWN_RATE))
+		static public var DEFAULT_SKILL:ESkill = new ESkill(0, "DefaultSkill", DefaultSkill, 10, new Vector.<EStat>(EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE));
+		static public var DEAD:ESkill = new ESkill(1, "Dead", DeadSkill, 10, new Vector.<EStat>(EStat.RESPAWN_RATE));
 		
 		public var ID:int;
 		public var Name:String;
