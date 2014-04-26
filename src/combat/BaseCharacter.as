@@ -134,6 +134,8 @@ package combat
 		{
 			mCurrentSkill.Update();
 			
+			if (mCurrentState == EState.DEAD) { return; }
+			
 			mAttackTimer += GameTime.DeltaTime;
 			if (mAttackTimer >= Speed.Value)
 			{

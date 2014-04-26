@@ -34,7 +34,10 @@ package combat
 			mView.x = OffsetValues.COMBAT_VIEW_WIDTH - mView.width;
 			mView.y = OffsetValues.STAGE_HEIGHT - mView.height;
 		}
-		
+		override public function ReceiveDamage(aDamage:int):void 
+		{
+			super.ReceiveDamage(aDamage);
+		}
 		override public function SetState(aState:int):void 
 		{
 			super.SetState(aState);

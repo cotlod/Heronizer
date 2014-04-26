@@ -12,7 +12,7 @@ package combat
 		
 		
 		static public var DEFAULT_SKILL:ESkill = new ESkill(0, "DefaultSkill", DefaultSkill, 10)
-		static public var DEAD:ESkill = new ESkill(1, "Dead", DeadSkill, 10, EStat.RESPAWN_RATE, EStat.HEALTH)
+		static public var DEAD:ESkill = new ESkill(1, "Dead", DeadSkill, 4, EStat.RESPAWN_RATE, EStat.HEALTH)
 		
 		public var ID:int;
 		public var Name:String;
