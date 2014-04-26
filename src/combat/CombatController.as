@@ -53,24 +53,40 @@ package combat
 		
 		private function OnEnemyReceivedDamage(e:CharacterEvent):void 
 		{
-			(mView as CombatView).DisplayStat("-" + mPlayer.Attack.Value + " HP", 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+			(mView as CombatView).DisplayStat("-" + e.Value + " HP", 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
 			(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.Health.Value / mEnemy.Health.OriginalValue);
 		}
 		
 		private function OnPlayerReceivedDamage(e:CharacterEvent):void 
 		{
-			(mView as CombatView).DisplayStat("-" + mEnemy.Attack.Value + " HP", 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
+			(mView as CombatView).DisplayStat("-" + e.Value + " HP", 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
 			(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.Health.Value / mPlayer.Health.OriginalValue);
 		}
 		
 		private function OnEnemyAttack(e:CharacterEvent):void 
 		{
-			mPlayer.SendDamage(mEnemy.Attack.Value);
+			var damage:Number = mEnemy.Attack.Value;
+			var critRatio:Number = mEnemy.CriticalChance.Value / 100;
+			if (Math.random() <= critRatio)
+			{
+				//CRITICAL
+				damage *= 2;
+				(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+			}
+			mPlayer.SendDamage(damage);
 		}
 		
 		private function OnPlayerAttack(e:CharacterEvent):void 
 		{
-			mEnemy.SendDamage(mPlayer.Attack.Value);
+			var damage:Number = mPlayer.Attack.Value;
+			var critRatio:Number = mPlayer.CriticalChance.Value / 100;
+			if (Math.random() <= critRatio)
+			{
+				//CRITICAL
+				damage *= 2;
+				(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
+			}
+			mEnemy.SendDamage(damage);
 		}
 		
 		override public function Update():void

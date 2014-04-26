@@ -16,7 +16,7 @@ package combat
 		public var Attack:Stat = new Stat(1, 0, EStat.ATTACK);
 		public var Defense:Stat = new Stat(1, 0, EStat.DEFENSE);
 		public var SkillDuration:Stat = new Stat(20, 0, EStat.SKILL_DURATION);
-		public var XpModifier:Stat = new Stat(1, 0, EStat.XP_MODIFIER);
+		public var CriticalChance:Stat = new Stat(10, 0, EStat.CRIT_CHANCE);
 		
 		private var mAttackTimer:Number = 0;
 		
@@ -31,7 +31,7 @@ package combat
 			var finalDamage:int = aDamage / Defense.Value;
 			trace(Name + " received " + finalDamage + " to the face.");
 			Health.Value -= finalDamage;
-			dispatchEvent(new CharacterEvent(CharacterEvent.RECEIVED_DAMAGE));
+			dispatchEvent(new CharacterEvent(CharacterEvent.RECEIVED_DAMAGE, aDamage));
 			if (Health.Value <= 0)
 			{
 				trace(Name + " is DEAD.");

@@ -14,6 +14,8 @@ package combat
 		private var mPlayerVisual:Bitmap;
 		private var mSkillTimer:Number = 0;
 		
+		public var XpModifier:Stat = new Stat(1, 0, EStat.XP_MODIFIER);
+		
 		public function Player() 
 		{
 			super();
