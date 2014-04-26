@@ -17,6 +17,7 @@ package combat
 		public var Attack:Stat = new Stat(1, 0, EStat.ATTACK);
 		public var Defense:Stat = new Stat(1, 0, EStat.DEFENSE);
 		public var CriticalChance:Stat = new Stat(10, 0, EStat.CRIT_CHANCE);
+		public var RespawnRate:Stat = new Stat(5, 0, EStat.RESPAWN_RATE);
 		
 		public var mStatList:Vector.<Stat> = new Vector.<Stat>();
 		private var mAttackTimer:Number = 0;

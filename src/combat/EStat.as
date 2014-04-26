@@ -17,6 +17,7 @@ package combat
 		static public var SKILL_DURATION:EStat = new EStat(4, "SkillDuration");
 		static public var CRIT_CHANCE:EStat = new EStat(5, "CritChance");
 		static public var XP_MODIFIER:EStat = new EStat(6, "XpModifier");
+		static public var RESPAWN_RATE:EStat = new EStat(7, "RespawnRate");
 		
 		
 		public var ID:int;
