@@ -9,6 +9,7 @@ package
 	import skill.event.SkillTreeEvent;
 	import skill.SkillTreeController;
 	import skill.SkillUpdate;
+	import util.AudioLoop;
 	import util.GameTime;
 	import util.Stage2D;
 	
@@ -31,6 +32,7 @@ package
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
+			new AudioLoop();
 			// entry point
 			Stage2D = stage;
 			mCombatController = new CombatController();
