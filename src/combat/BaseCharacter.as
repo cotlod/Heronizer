@@ -43,7 +43,7 @@ package combat
 		
 		private function OnSkillStatModifier(e:SkillEvent):void 
 		{
-			SetState(mCurrentSkill.State);
+			SetState(mCurrentSkill.SkillState.ID);
 			e = new SkillEvent(e.type, e.StatModified, e.Value, e.Target);
 			dispatchEvent(e);
 		}
@@ -94,12 +94,12 @@ package combat
 		
 		private function OnSkillStateChange(aEvent:SkillEvent):void 
 		{
-			SetState(mCurrentSkill.State);
+			SetState(mCurrentSkill.SkillState.ID);
 		}
 		
 		private function OnSkillStarted(aEvent:Event):void 
 		{
-			SetState(mCurrentSkill.State);
+			SetState(mCurrentSkill.SkillState.ID);
 		}
 		
 		private function OnSkillChangeBackground(aEvent:SkillEvent):void
@@ -126,15 +126,26 @@ package combat
 			return(mCharacterStat.GetList());
 		}
 		
-		public function SetState(aState:int):void
+		public function SetState(aState:int):Boolean
 		{
 			//override for visual
 			mCurrentState = aState;
 			
-			if (mCurrentState != EState.DEAD && (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT))
+			if (mView.numChildren > 0)
 			{
-				//mAttackHitTimer = 0;
+				mView.removeChildAt(0);
 			}
+			
+			for (var i:int = 0; i < mCurrentSkill.StateList.length; i++) 
+			{
+				if (mCurrentSkill.StateList[i].ID == mCurrentState)
+				{
+					
+					return(true);
+				}
+			}
+			
+			return(false);
 		}
 				
 		public function get CurrentSkill():Skill 

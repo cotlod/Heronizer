@@ -84,7 +84,7 @@ package combat
 				var xpValueStat:Stat = mEnemy.GetStatByID(EStat.XP_VALUE.ID);
 				
 				//var enemyXPValue:Number = xpValueStat.Value 
-				var enemyXPValue:Number = 2;
+				var enemyXPValue:Number =100;
 				var playerXPModifier:Number = mPlayer.GetStatByID(EStat.XP_MODIFIER.ID).Value 
 				var xp:Number = enemyXPValue * playerXPModifier;
 				dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));

@@ -14,30 +14,41 @@ package combat.skill
 	 * ...
 	 * @author 
 	 */
-	public class DefaultSkill extends Skill
+	public class ToastSkill extends Skill
 	{
-		private static const TIME_IN_ATTACK_HIT_STATE:Number = 0.5;
+		private static const TIME_IN_ATTACK_HIT_STATE:Number = 1;
 		private var mAttackTimer:Number = 0;
 		private var mAttackHitTimer:Number = 0;
-		private var mSpeed:Stat;
+		
 		private var mAttack:Stat;
+		private var mSpeed:Stat;
+		private var mSkillDuration:Stat;
 		private var mCritChance:Stat;
 		
-		public function DefaultSkill() 
+		private var mXPModifier:Number;
+		
+		public function ToastSkill() 
 		{
-			super(ESkill.DEFAULT_SKILL);
+			super(ESkill.TOAST);
 			
-			mStateList.push(new State(EState.ATTACK, PlayerAsset.STRIKE));
-			mStateList.push(new State(EState.HIT, PlayerAsset.HIT));
+			mStateList.length = 0;
+			mStateList.push(new State(EState.IDLE, PlayerAsset.IDLE_TOAST));
+			mStateList.push(new State(EState.ATTACK, PlayerAsset.STRIKE_TOAST));
+			
+			mState = mStateList[0];
 		}
 		
 		override public function SetStat(aStatList:Vector.<Stat>):void 
 		{
 			super.SetStat(aStatList);
 			
-			mSpeed = aStatList[0];
-			mAttack = aStatList[1];
+			mAttack = aStatList[0];
+			mSpeed = aStatList[1];
+			//mSkillDuration = aStatList[2];
+			
+			//mDuration += mSkillDuration.Value;
 			mCritChance = aStatList[2];
+			mXPModifier = aStatList[3].Value * 2;
 		}
 		
 		override public function Update():void 
@@ -48,8 +59,8 @@ package combat.skill
 			
 			if (mAttackTimer >= mSpeed.Value)
 			{
-				var damage:Number = mAttack.Value;
-				var critRatio:Number = mCritChance.Value / 100;
+				var damage:Number = mAttack.Value * 2;
+				var critRatio:Number = mCritChance.Value * 2 / 100;
 				
 				if (Math.random() <= critRatio)
 				{
