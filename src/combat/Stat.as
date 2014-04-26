@@ -4,7 +4,7 @@ package combat
 	 * ...
 	 * @author ...
 	 */
-	public class Stat 
+	public class Stat
 	{
 		public var OriginalValue:Number;
 		public var Value:Number;

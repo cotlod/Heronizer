@@ -28,6 +28,19 @@ package combat
 		}
 		
 		static public function GetList():Vector.<EStat> { return(mEStatList); }
+		
+		static public function GetStatByID(aID:int):EStat 
+		{
+			for (var i:int = 0; i < mEStatList.length; i++) 
+			{
+				if (mEStatList[i].ID == aID)
+				{
+					return(mEStatList[i]);
+				}
+			}
+			
+			return(null);
+		}
 	}
 
 }

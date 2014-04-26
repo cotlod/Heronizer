@@ -4,9 +4,12 @@ package skill
 	import combat.EStat;
 	import combat.Skill;
 	import combat.Stat;
+	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
 	import mvc.BaseController;
 	import skill.event.SkillTreeEvent;
@@ -32,6 +35,10 @@ package skill
 		
 		private var mCurrentXP:int;
 		
+		private var mUniqueID:int;
+		
+		private var mURLLoader:URLLoader;
+		
 		public function SkillTreeController() 
 		{
 			mView = new SkillTreeView();
@@ -42,7 +49,23 @@ package skill
 			mScrollOffset = new Point();
 			mLastMousePosition = new Point();
 			
-			mSkillTreeModel.FromJSON("");
+			mSkillTreeView.addEventListener(MouseEvent.MOUSE_DOWN, OnScrollMouseDown);
+			mSkillTreeView.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+			mSkillTreeView.addEventListener(MouseEvent.CLICK, OnSkillTreeClick);
+			
+			Stage2D.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+			Stage2D.addEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
+			
+			mURLLoader = new URLLoader();
+			mURLLoader.addEventListener(Event.COMPLETE, OnSkillTreeLoaded);
+			mURLLoader.load(new URLRequest("SkillTree.json"));
+		}
+		
+		private function OnSkillTreeLoaded(aEvent:Event):void 
+		{
+			mURLLoader.removeEventListener(Event.COMPLETE, OnSkillTreeLoaded);
+			
+			mSkillTreeModel.FromJSON(mURLLoader.data);
 			
 			for (var i:int = 0; i < mSkillTreeModel.SkillNodeList.length; i++) 
 			{
@@ -50,13 +73,7 @@ package skill
 				mSkillTreeModel.SkillNodeList[i].addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 			}
 			
-			mSkillTreeView.addEventListener(MouseEvent.MOUSE_DOWN, OnScrollMouseDown);
-			mSkillTreeView.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
-			mSkillTreeView.addEventListener(MouseEvent.CLICK, OnSkillTreeClick);
-			
-			Stage2D.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
-			
-			Stage2D.addEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
+			mUniqueID = mSkillTreeModel.LastID;
 		}
 		
 		private function OnKeyUp(aEvent:KeyboardEvent):void 
@@ -70,6 +87,11 @@ package skill
 			if (aEvent.keyCode == Keyboard.M)
 			{
 				mMove = !mMove;
+			}
+			
+			if (aEvent.keyCode == Keyboard.S)
+			{
+				trace(mSkillTreeModel.ToJSON());
 			}
 		}
 		
@@ -91,7 +113,7 @@ package skill
 					randomStat = new Stat(int(Math.random() * 5) + 1, 0, randomStatTemplate);
 				}
 				
-				mCurrentNode = new SkillNode(randomStat, randomSkill);
+				mCurrentNode = new SkillNode(mUniqueID++, randomStat, randomSkill);
 				mCurrentNode.XPGate = int(Math.random() * 400);
 				mCurrentNode.SetDescription();
 				mCurrentNode.Position.x = mSkillTreeView.mouseX - mScrollOffset.x;
