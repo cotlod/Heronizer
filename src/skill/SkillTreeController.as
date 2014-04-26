@@ -262,6 +262,11 @@ package skill
 			mCurrentXP += aXP
 		}
 		
+		public function GetXP():int 
+		{
+			return(mCurrentXP);
+		}
+		
 		override public function Update():void 
 		{
 			super.Update();
@@ -274,5 +279,6 @@ package skill
 			
 			ResetNodeList();
 		}
+
 	}
 }

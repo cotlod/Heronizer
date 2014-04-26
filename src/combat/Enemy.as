@@ -48,6 +48,8 @@ package combat
 			mEnemyDead2Visual = new mEnemyDead2Class();
 			mEnemyHit2Visual = new mEnemyHit2Class();
 			
+			mCharacterStat.AddStat(new Stat(2, 0, EStat.XP_VALUE));
+			
 			mView.addChild(mEnemyIdle1Visual);
 			mView.x = OffsetValues.COMBAT_VIEW_WIDTH - mView.width;
 			mView.y = OffsetValues.STAGE_HEIGHT - mView.height;
