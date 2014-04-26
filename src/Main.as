@@ -4,6 +4,7 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import skill.SkillTreeController;
+	import util.Stage2D;
 	
 	/**
 	 * ...
@@ -23,6 +24,7 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
+			Stage2D = stage;
 			mCombatController = new CombatController();
 			mSkillTreeController = new SkillTreeController();
 			
