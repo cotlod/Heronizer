@@ -16,7 +16,7 @@ package combat
 	{
 		protected var Name:String = "";
 		public var Health:Stat = new Stat(10, 0, EStat.HEALTH);
-		public var Speed:Stat = new Stat(5, 0, EStat.SPEED);
+		public var Speed:Stat = new Stat(1, 0, EStat.SPEED);
 		public var Attack:Stat = new Stat(1, 0, EStat.ATTACK);
 		public var Defense:Stat = new Stat(1, 0, EStat.DEFENSE);
 		public var CriticalChance:Stat = new Stat(10, 0, EStat.CRIT_CHANCE);
@@ -39,19 +39,9 @@ package combat
 			mStatList.push(Attack);
 			mStatList.push(Defense);
 			mStatList.push(CriticalChance);
-			
-			SetSkill(new DefaultSkill());
+			mStatList.push(RespawnRate);
 			
 			mSkillList.push(ESkill.DEFAULT_SKILL);
-		}
-		
-		public function SetSkill(aSkill:Skill):void 
-		{
-			mCurrentSkill = aSkill;
-			mCurrentSkill.addEventListener(SkillEvent.STARTED, OnSkillStarted);
-			mCurrentSkill.addEventListener(SkillEvent.DONE, OnSkillDone);
-			mCurrentSkill.addEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
-			mCurrentSkill.Start();
 		}
 		
 		private function OnSkillStatModifier(e:SkillEvent):void 
@@ -59,45 +49,66 @@ package combat
 			dispatchEvent(e);
 		}
 		
-		private function OnSkillStarted(aEvent:Event):void 
+		public function Init():void
 		{
-			
+			SetSkill(new DefaultSkill());
 		}
 		
-		private function OnSkillDone(aEvent:Event):void 
+		public function SetSkill(aSkill:Skill):void 
 		{
-			if (Health.Value <= 0)
+			if (mCurrentSkill)
 			{
-				SetSkill(new DeadSkill());
+				mCurrentSkill.removeEventListener(SkillEvent.STARTED, OnSkillStarted);
+				mCurrentSkill.removeEventListener(SkillEvent.DONE, OnSkillDone);
+				mCurrentSkill.removeEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
+				mCurrentSkill.Stop();
 			}
-			else
+			
+			mCurrentSkill = aSkill;
+			mCurrentSkill.addEventListener(SkillEvent.STARTED, OnSkillStarted);
+			mCurrentSkill.addEventListener(SkillEvent.DONE, OnSkillDone);
+			mCurrentSkill.addEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
+			
+			if (mCurrentSkill.Type.StatList)
 			{
-				var randomSkill:ESkill = mSkillList[int(Math.random() * mSkillList.length)];
-				
-				var skill:Skill = new randomSkill.Definition();
-				
 				var characterStatList:Vector.<Stat> = new  Vector.<Stat>();
 				
-				for (var i:int = 0; i < randomSkill.StatList.length; i++) 
+				for (var i:int = 0; i < mCurrentSkill.Type.StatList.length; i++) 
 				{
 					for (var j:int = 0; j < mStatList.length; j++) 
 					{
-						if (mStatList[j].Type.ID == randomSkill.StatList[i].ID)
+						if (mStatList[j].Type.ID == mCurrentSkill.Type.StatList[i].ID)
 						{
 							characterStatList.push(mStatList[j]);
 							break;
 						}
 					}
-					
-					skill.SetStat(characterStatList);
 				}
 				
-				SetSkill(skill);
+				mCurrentSkill.SetStat(characterStatList);
 			}
+			
+			mCurrentSkill.Start();
+		}
+		
+		private function OnSkillStarted(aEvent:Event):void 
+		{
+			SetState(mCurrentSkill.State);
+		}
+		
+		private function OnSkillDone(aEvent:Event):void 
+		{
+			var randomSkill:ESkill = mSkillList[int(Math.random() * mSkillList.length)];
+			
+			var skill:Skill = new randomSkill.Definition();
+			
+			SetSkill(skill);
 		}
 		
 		public function ReceiveDamage(aDamage:int):void
 		{
+			if (mCurrentState == EState.DEAD) { return; }
+			
 			var finalDamage:int = aDamage / Defense.Value;
 			trace(Name + " received " + finalDamage + " to the face.");
 			Health.Value -= finalDamage;
@@ -105,7 +116,7 @@ package combat
 			
 			if (Health.Value <= 0)
 			{
-				mCurrentSkill.Stop();
+				SetSkill(new DeadSkill());
 			}
 			else
 			{
@@ -117,7 +128,8 @@ package combat
 		{
 			//override for visual
 			mCurrentState = aState;
-			if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
+			
+			if (mCurrentState != EState.DEAD && (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT))
 			{
 				//mAttackHitTimer = 0;
 			}
@@ -126,6 +138,24 @@ package combat
 		override public function Update():void
 		{
 			mCurrentSkill.Update();
+<<<<<<< HEAD
+=======
+			
+			mAttackTimer += GameTime.DeltaTime;
+			if (mAttackTimer >= Speed.Value)
+			{
+				dispatchEvent(new CharacterEvent(CharacterEvent.ATTACK));
+				mAttackTimer = mAttackTimer - Speed.Value;
+			}
+			if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
+			{
+				mAttackHitTimer += GameTime.DeltaTime;
+				if (mAttackHitTimer >= TIME_IN_ATTACK_HIT_STATE)
+				{
+					SetState(EState.IDLE);
+				}
+			}
+>>>>>>> 745fd5112b0ff1bf54edfee341ff90a865d5257b
 		}
 	}
 

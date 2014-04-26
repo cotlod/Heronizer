@@ -23,8 +23,9 @@ package combat
 			mView = new CombatView();
 			mModel = new CombatModel();
 			mPlayer = new Player();
+			mPlayer.Init();
 			mEnemy = new Enemy();
-			
+			mEnemy.Init();
 			mView.addChild(mPlayer.View);
 			mView.addChild(mEnemy.View);
 			
