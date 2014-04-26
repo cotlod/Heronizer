@@ -1,2 +1,5 @@
 *.swf
 *.swf
+*.swf
+obj/RandomHeronizerConfig.xml
+obj/RandomHeronizerConfig.old

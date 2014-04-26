@@ -1,7 +1,10 @@
 package skill 
 {
+	import combat.Skill;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.ui.Keyboard;
 	import mvc.BaseController;
 	import util.Stage2D;
 	/**
@@ -19,6 +22,9 @@ package skill
 		
 		private var mScrollOffset:Point;
 		private var mLastMousePosition:Point;
+		
+		private var mDebug:Boolean;
+		private var mMove:Boolean;
 		
 		public function SkillTreeController() 
 		{
@@ -38,22 +44,49 @@ package skill
 				mSkillTreeModel.SkillNodeList[i].addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 			}
 			
-			mSkillTreeView.addEventListener(MouseEvent.MOUSE_DOWN, OnViewMouseDown);
-			mSkillTreeView.addEventListener(MouseEvent.MOUSE_UP, OnViewMouseUp);
+			mSkillTreeView.addEventListener(MouseEvent.MOUSE_DOWN, OnScrollMouseDown, true);
+			mSkillTreeView.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+			mSkillTreeView.addEventListener(MouseEvent.CLICK, OnSkillTreeClick);
 			
 			Stage2D.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
-		}
-		
-		private function OnViewMouseUp(aEvent:MouseEvent):void 
-		{
 			
-			mScroll = false;
+			Stage2D.addEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
 		}
 		
-		private function OnViewMouseDown(aEvent:MouseEvent):void 
+		private function OnKeyUp(aEvent:KeyboardEvent):void 
 		{
-			mLastMousePosition.x = Stage2D.mouseX;
-			mLastMousePosition.y = Stage2D.mouseY;
+			if (aEvent.keyCode == Keyboard.SPACE)
+			{
+				mDebug = !mDebug;
+			}
+			
+			if (aEvent.keyCode == Keyboard.M)
+			{
+				mMove = !mMove;
+			}
+		}
+		
+		private function OnSkillTreeClick(aEvent:MouseEvent):void 
+		{
+			if (mDebug && !mMove)
+			{
+				mCurrentNode = new SkillNode();
+				mCurrentNode.Position.x = mSkillTreeView.mouseX - mScrollOffset.x;
+				mCurrentNode.Position.y = mSkillTreeView.mouseY - mScrollOffset.y;
+				mCurrentNode.addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
+				mCurrentNode.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+				mSkillTreeModel.AddNode(mCurrentNode);
+			}
+		}
+		
+		private function OnScrollMouseDown(aEvent:MouseEvent):void 
+		{
+			aEvent.stopPropagation();
+			
+			if (mDebug) { return; }
+			
+			mLastMousePosition.x = mSkillTreeView.mouseX;
+			mLastMousePosition.y = mSkillTreeView.mouseY;
 			
 			mScroll = true;
 		}
@@ -61,12 +94,31 @@ package skill
 		private function OnMouseDown(aEvent:MouseEvent):void 
 		{
 			aEvent.stopPropagation();
-			mCurrentNode = aEvent.target as SkillNode;
+			
+			if (mDebug)
+			{
+				mCurrentNode = aEvent.target as SkillNode;
+			}
 		}
 		
 		private function OnMouseUp(aEvent:MouseEvent):void 
 		{
-			mCurrentNode = null;
+			aEvent.stopPropagation();
+			
+			mScroll = false;
+			
+			if (mDebug)
+			{
+				if (!mMove && mCurrentNode && aEvent.target is SkillNode)
+				{
+					mCurrentNode.Connection.AddNode(aEvent.target as SkillNode);
+				}
+				
+				if (mMove)
+				{
+					mCurrentNode = null;
+				}
+			}
 		}
 		
 		override public function Update():void 
@@ -75,17 +127,20 @@ package skill
 			
 			if (mScroll)
 			{
-				mScrollOffset.x += mLastMousePosition.x - Stage2D.mouseX;
-				mScrollOffset.y += mLastMousePosition.y - Stage2D.mouseY;
+				mScrollOffset.x -= mLastMousePosition.x - mSkillTreeView.mouseX;
+				mScrollOffset.y -= mLastMousePosition.y - mSkillTreeView.mouseY;
 				
-				mLastMousePosition.x = Stage2D.mouseX;
-				mLastMousePosition.y = Stage2D.mouseY;
+				mLastMousePosition.x = mSkillTreeView.mouseX;
+				mLastMousePosition.y = mSkillTreeView.mouseY;
 			}
 			
-			if (mCurrentNode)
+			if (mDebug && mMove)
 			{
-				mCurrentNode.Position.x = Stage2D.mouseX;
-				mCurrentNode.Position.y = Stage2D.mouseY;
+				if (mCurrentNode)
+				{
+					mCurrentNode.Position.x = mSkillTreeView.mouseX - mScrollOffset.x;
+					mCurrentNode.Position.y = mSkillTreeView.mouseY - mScrollOffset.y;
+				}	
 			}
 			
 			mSkillTreeView.SetOffset(mScrollOffset);

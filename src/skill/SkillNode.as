@@ -26,14 +26,10 @@ package skill
 		public function SkillNode() 
 		{
 			mNodeConnection = new NodeConnection();
-			
-			graphics.beginFill(0x00FF00);
-			graphics.drawCircle(0, 0, 10);
-			graphics.endFill();
+			mPosition = new Point();
 		}
 		
 		public function get Position():Point { return(mPosition); }
-		public function set Position(aValue:Point):void { mPosition = aValue; }
 		
 		public function get Connection():NodeConnection { return(mNodeConnection); }
 		
@@ -60,7 +56,7 @@ package skill
 			
 			graphics.clear();
 			graphics.beginFill(0x00FF00);
-			graphics.drawCircle(0, 0, 10);
+			graphics.drawCircle(0, 0, 30);
 			graphics.endFill();
 		}		
 	}
