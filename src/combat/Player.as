@@ -9,9 +9,18 @@ package combat
 	 */
 	public class Player extends BaseCharacter 
 	{
-		[Embed(source="../../bin/assets/superman.gif")]
-		private var mPlayerClass:Class;
-		private var mPlayerVisual:Bitmap;
+		[Embed(source="../../bin/assets/superman_idle.gif")]
+		private var mPlayerIdleClass:Class;
+		private var mPlayerIdleVisual:Bitmap;
+		[Embed(source="../../bin/assets/superman_attack.gif")]
+		private var mPlayerAttackClass:Class;
+		private var mPlayerAttackVisual:Bitmap;
+		[Embed(source="../../bin/assets/superman_hit.gif")]
+		private var mPlayerHitClass:Class;
+		private var mPlayerHitVisual:Bitmap;
+		[Embed(source="../../bin/assets/superman_dead.gif")]
+		private var mPlayerDeadClass:Class;
+		private var mPlayerDeadVisual:Bitmap;
 		private var mSkillTimer:Number = 0;
 		
 		public var XpModifier:Stat = new Stat(1, 0, EStat.XP_MODIFIER);
@@ -19,10 +28,43 @@ package combat
 		public function Player() 
 		{
 			super();
+			Speed.Value -= 2;
 			Name = "Player";
-			mPlayerVisual = new mPlayerClass();
-			mView.addChild(mPlayerVisual);
+			mPlayerIdleVisual = new mPlayerIdleClass();
+			mPlayerAttackVisual = new mPlayerAttackClass();
+			mPlayerHitVisual = new mPlayerHitClass();
+			mPlayerDeadVisual = new mPlayerDeadClass();
+			mView.addChild(mPlayerIdleVisual);
 			mView.width = 100;
+		}
+		
+		override public function SetState(aState:int):void 
+		{
+			super.SetState(aState);
+			mView.removeChildAt(0);
+			switch(aState)
+			{
+				case EState.IDLE:
+				{
+					mView.addChild(mPlayerIdleVisual);
+					break;
+				}
+				case EState.ATTACK:
+				{
+					mView.addChild(mPlayerAttackVisual);
+					break;
+				}
+				case EState.HIT:
+				{
+					mView.addChild(mPlayerHitVisual);
+					break;
+				}
+				case EState.DEAD:
+				{
+					mView.addChild(mPlayerDeadVisual);
+					break;
+				}
+			}
 		}
 		
 		override public function Update():void 

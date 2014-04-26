@@ -10,6 +10,7 @@ package combat
 	 */
 	public class BaseCharacter extends BaseController
 	{
+		private static const TIME_IN_ATTACK_HIT_STATE:Number = 1;
 		protected var Name:String = "";
 		public var Health:Stat = new Stat(10, 0, EStat.HEALTH);
 		public var Speed:Stat = new Stat(5, 0, EStat.SPEED);
@@ -19,6 +20,8 @@ package combat
 		public var CriticalChance:Stat = new Stat(10, 0, EStat.CRIT_CHANCE);
 		
 		private var mAttackTimer:Number = 0;
+		private var mAttackHitTimer:Number = 0;
+		private var mCurrentState:int = EState.IDLE;
 		
 		public function BaseCharacter() 
 		{
@@ -26,7 +29,7 @@ package combat
 			mView.y = OffsetValues.CHARACTERS_Y_OFFSET;
 		}
 		
-		public function SendDamage(aDamage:int):void
+		public function ReceiveDamage(aDamage:int):void
 		{
 			var finalDamage:int = aDamage / Defense.Value;
 			trace(Name + " received " + finalDamage + " to the face.");
@@ -35,7 +38,22 @@ package combat
 			if (Health.Value <= 0)
 			{
 				trace(Name + " is DEAD.");
+				SetState(EState.DEAD);
 				dispatchEvent(new CharacterEvent(CharacterEvent.DIED));
+			}
+			else
+			{
+				SetState(EState.HIT);
+			}
+		}
+		
+		public function SetState(aState:int):void
+		{
+			//override for visual
+			mCurrentState = aState;
+			if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
+			{
+				mAttackHitTimer = 0;
 			}
 		}
 		
@@ -44,9 +62,16 @@ package combat
 			mAttackTimer += GameTime.DeltaTime;
 			if (mAttackTimer >= Speed.Value)
 			{
-				trace("ATTACK");
 				dispatchEvent(new CharacterEvent(CharacterEvent.ATTACK));
 				mAttackTimer = mAttackTimer - Speed.Value;
+			}
+			if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
+			{
+				mAttackHitTimer += GameTime.DeltaTime;
+				if (mAttackHitTimer >= TIME_IN_ATTACK_HIT_STATE)
+				{
+					SetState(EState.IDLE);
+				}
 			}
 		}
 	}

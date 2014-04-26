@@ -73,7 +73,8 @@ package combat
 				damage *= 2;
 				(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
 			}
-			mPlayer.SendDamage(damage);
+			mEnemy.SetState(EState.ATTACK);
+			mPlayer.ReceiveDamage(damage);
 		}
 		
 		private function OnPlayerAttack(e:CharacterEvent):void 
@@ -86,7 +87,8 @@ package combat
 				damage *= 2;
 				(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
 			}
-			mEnemy.SendDamage(damage);
+			mPlayer.SetState(EState.ATTACK);
+			mEnemy.ReceiveDamage(damage);
 		}
 		
 		override public function Update():void
