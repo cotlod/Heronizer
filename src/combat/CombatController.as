@@ -111,7 +111,7 @@ package combat
 					statToModify.Value += e.Value;
 					if (e.StatModified.ID == EStat.HEALTH.ID)
 					{
-						if (mPlayer.mCurrentState != EState.ATTACK)
+						if (mPlayer.CurrentState != EState.ATTACK)
 						{
 							mPlayer.SetState(EState.HIT);
 						}
@@ -137,6 +137,7 @@ package combat
 				var xp:Number = enemyXPValue * playerXPModifier;
 				dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
 				mEnemy.SetSkill(new DeadSkill());
+				mEnemy.SetRandomAsset(Math.random());
 			}
 		}
 		
@@ -167,7 +168,7 @@ package combat
 					statToModify.Value += e.Value;
 					if (e.StatModified.ID == EStat.HEALTH.ID)
 					{
-						if (mEnemy.mCurrentState != EState.ATTACK)
+						if (mEnemy.CurrentState != EState.ATTACK)
 						{
 							mEnemy.SetState(EState.HIT);
 						}
@@ -217,11 +218,16 @@ package combat
 					playerStat.Value += modifierStat.Value;
 				}
 			}
-			mSkillList.length = 0;
-			for each (var skill:Skill in aSkillUpdate)
+			
+			mPlayer.GetSkillList().length = 0;
+			
+			for each (var newSkill:Skill in aSkillUpdate.SkillList)
 			{
-				mSkillList.push(skill);
+				mPlayer.GetSkillList().push(newSkill.Type);
 			}
+			
+			OnPlayerReceivedDamage(null);
+			OnPlayerReceivedDamage(null);
 		}
 		
 		override public function Update():void

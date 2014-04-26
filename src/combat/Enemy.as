@@ -8,7 +8,9 @@ package combat
 	 */
 	public class Enemy extends BaseCharacter 
 	{
-		private var mEnemeyAsset:Enemy1Asset;
+		private var mEnemey1Asset:Enemy1Asset;
+		private var mEnemey2Asset:Enemy2Asset;
+		private var mRandomAsset:Number;
 		
 		
 		public function Enemy() 
@@ -16,7 +18,8 @@ package combat
 			super();
 			Name = "Enemy";
 			
-			mEnemeyAsset = new Enemy1Asset();
+			mEnemey1Asset = new Enemy1Asset();
+			mEnemey2Asset = new Enemy2Asset();
 			
 			mCharacterStat.AddStat(new Stat(2, 0, EStat.XP_VALUE));
 			
@@ -30,7 +33,20 @@ package combat
 		{
 			if (super.SetState(aState))
 			{
-				var visual:Bitmap = Enemy1Asset.AssetDictionary[mCurrentSkill.SkillState.Visual];
+				
+				var visual:Bitmap;
+				if (mRandomAsset < 0.5)
+				{
+					visual = Enemy1Asset.AssetDictionary[mCurrentSkill.SkillState.Visual];
+				}
+				else 
+				{
+					visual = Enemy2Asset.AssetDictionary[mCurrentSkill.SkillState.Visual];
+				}
+				/*else
+				{
+					visual = Enemy3Asset.AssetDictionary[mCurrentSkill.SkillState.Visual];
+				}*/
 				mView.addChild(visual);
 				return(true);
 			}
@@ -38,6 +54,9 @@ package combat
 			return(false);
 		}
 		
+		public function SetRandomAsset(aRandomAsset:Number):void 
+		{
+			mRandomAsset = aRandomAsset
+		}
 	}
-
 }

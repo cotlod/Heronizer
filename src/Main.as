@@ -59,6 +59,7 @@ package
 		{
 			var skillUpdate:SkillUpdate = mSkillTreeController.ComputeSkill();
 			mCombatController.SetSkillUpdate(skillUpdate);
+			(mCombatController.View as CombatView).AddXP(mSkillTreeController.GetXP());
 		}
 		
 		private function Update(e:Event):void 

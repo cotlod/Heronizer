@@ -2,6 +2,7 @@ package combat
 {
 	import combat.event.CharacterEvent;
 	import flash.display.Bitmap;
+	import flash.events.Event;
 	import util.GameTime;
 	import util.OffsetValues;
 	/**
@@ -25,7 +26,7 @@ package combat
 			
 			mView.y = OffsetValues.STAGE_HEIGHT - 300;
 			
-			mSkillList.push(ESkill.ATTACK);
+			/*mSkillList.push(ESkill.ATTACK);
 			mSkillList.push(ESkill.HEALER);
 			mSkillList.push(ESkill.DEATH_DEALER);
 			mSkillList.push(ESkill.FIRE);
@@ -34,7 +35,12 @@ package combat
 			mSkillList.push(ESkill.PINCER);
 			mSkillList.push(ESkill.ROID_UP);
 			mSkillList.push(ESkill.TOAST);
-			mSkillList.push(ESkill.WARP);
+			mSkillList.push(ESkill.WARP);*/
+		}
+		
+		override protected function OnSkillDone(aEvent:Event):void 
+		{
+			super.OnSkillDone(aEvent);
 		}
 		
 		override public function SetState(aState:int):Boolean 
