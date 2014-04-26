@@ -10,6 +10,7 @@ package combat.skill.event
 	{
 		static public var STARTED:String = "combat.skill.event.SkillEvent::STARTED";
 		static public var DONE:String = "combat.skill.event.SkillEvent::DONE";
+		static public var STATE:String = "combat.skill.event.SkillEvent::STATE";
 		static public var STAT_MODIFIER:String = "combat.skill.event.SkillEvent::STAT_MODIFIER";
 		
 		public var StatModified:EStat;

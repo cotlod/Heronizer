@@ -43,6 +43,7 @@ package combat
 		
 		private function OnSkillStatModifier(e:SkillEvent):void 
 		{
+			SetState(mCurrentSkill.State);
 			e = new SkillEvent(e.type, e.StatModified, e.Value, e.Target);
 			dispatchEvent(e);
 		}
@@ -59,6 +60,7 @@ package combat
 				mCurrentSkill.removeEventListener(SkillEvent.STARTED, OnSkillStarted);
 				mCurrentSkill.removeEventListener(SkillEvent.DONE, OnSkillDone);
 				mCurrentSkill.removeEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
+				mCurrentSkill.removeEventListener(SkillEvent.STATE, OnSkillStateChange);
 				mCurrentSkill.Stop();
 			}
 			
@@ -66,6 +68,7 @@ package combat
 			mCurrentSkill.addEventListener(SkillEvent.STARTED, OnSkillStarted);
 			mCurrentSkill.addEventListener(SkillEvent.DONE, OnSkillDone);
 			mCurrentSkill.addEventListener(SkillEvent.STAT_MODIFIER, OnSkillStatModifier);
+			mCurrentSkill.addEventListener(SkillEvent.STATE, OnSkillStateChange);
 			
 			if (mCurrentSkill.Type.StatList)
 			{
@@ -85,6 +88,11 @@ package combat
 			}
 			
 			mCurrentSkill.Start();
+		}
+		
+		private function OnSkillStateChange(aEvent:SkillEvent):void 
+		{
+			SetState(mCurrentSkill.State);
 		}
 		
 		private function OnSkillStarted(aEvent:Event):void 
@@ -111,27 +119,6 @@ package combat
 			return(mCharacterStat.GetList());
 		}
 		
-		public function ReceiveDamage(aDamage:int):void
-		{
-			if (mCurrentState == EState.DEAD) { return; }
-			
-			var finalDamage:int = aDamage / GetStatByID(EStat.DEFENSE.ID).Value;
-			
-			trace(Name + " received " + finalDamage + " to the face.");
-			
-			GetStatByID(EStat.HEALTH.ID).Value -= finalDamage;
-			dispatchEvent(new CharacterEvent(CharacterEvent.RECEIVED_DAMAGE, aDamage));
-			
-			if (GetStatByID(EStat.HEALTH.ID).Value <= 0)
-			{
-				SetSkill(new DeadSkill());
-			}
-			else
-			{
-				SetState(EState.HIT);
-			}
-		}
-		
 		public function SetState(aState:int):void
 		{
 			//override for visual
@@ -147,6 +134,7 @@ package combat
 		{
 			return(mCurrentSkill);
 		}
+		
 		
 		override public function Update():void
 		{

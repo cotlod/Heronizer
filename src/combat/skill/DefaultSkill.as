@@ -2,6 +2,7 @@ package combat.skill
 {
 	import combat.ESkill;
 	import combat.EStat;
+	import combat.EState;
 	import combat.ETarget;
 	import combat.Skill;
 	import combat.skill.event.SkillEvent;
@@ -37,31 +38,37 @@ package combat.skill
 		override public function Update():void 
 		{
 			super.Update();
+			
 			mAttackTimer += GameTime.DeltaTime;
+			
 			if (mAttackTimer >= mSpeed.Value)
 			{
 				var damage:Number = mAttack.Value;
 				var critRatio:Number = mCritChance.Value / 100;
+				
 				if (Math.random() <= critRatio)
 				{
 					//CRITICAL
 					damage *= 2;
 					//(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2) - OffsetValues.CRITICAL_UI_Y_OFFSET));
 				}
-				//mPlayer.SetState(EState.ATTACK);
-				//mEnemy.ReceiveDamage(damage);
 				
-				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, damage, ETarget.OTHER));
+				mState = EState.ATTACK;
+				
+				trace("ATTACK");
+				dispatchEvent(new SkillEvent(SkillEvent.STAT_MODIFIER, EStat.HEALTH, -damage, ETarget.OTHER));
 				mAttackTimer = mAttackTimer - mSpeed.Value;
 			}
-			/*if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
+			if (mState == EState.ATTACK)
 			{
 				mAttackHitTimer += GameTime.DeltaTime;
+				
 				if (mAttackHitTimer >= TIME_IN_ATTACK_HIT_STATE)
 				{
-					SetState(EState.IDLE);
+					mState = EState.IDLE;
+					dispatchEvent(new SkillEvent(SkillEvent.STATE))
 				}
-			}*/
+			}
 		}
 	}
 }
