@@ -20,6 +20,11 @@ package combat
 		private var mCombatOver:Boolean = false;
 		private var mSkillList:Vector.<Skill> = new Vector.<Skill>();
 		
+		private var mShake:Boolean;
+		private var mShakeTime:int;
+		private var mShakeX:Number;
+		private var mShakeY:Number;
+		
 		public function CombatController() 
 		{
 			mView = new CombatView();
@@ -48,6 +53,18 @@ package combat
 		{
 			var health:Stat = mEnemy.GetStatByID(EStat.HEALTH.ID);
 			health.Value = health.Value-1;
+			
+			if (!isNaN(mShakeX))
+			{
+				mEnemy.View.x = mShakeX;
+				mEnemy.View.y = mShakeY;
+			}
+			
+			mShake = true;
+			mShakeTime = 10;
+			mShakeX = mEnemy.View.x;
+			mShakeY = mEnemy.View.y;
+			
 			OnEnemyReceivedDamage(null);
 		}
 		
@@ -191,6 +208,22 @@ package combat
 			}
 			
 			mPlayer.Update();
+			
+			if (mShake && mShakeTime-- > 0)
+			{
+				mEnemy.View.x = mShakeX;
+				mEnemy.View.y = mShakeY;
+				
+				mEnemy.View.x += Math.random() * 10 -20;
+				mEnemy.View.y += Math.random() * 10 -20;
+				
+				if (mShakeTime == 0)
+				{
+					mEnemy.View.x = mShakeX;
+					mEnemy.View.y = mShakeY;
+				}
+			}
+			
 			mEnemy.Update();
 			mView.Update();
 		}

@@ -24,7 +24,7 @@ package combat.skill
 		
 		public function AttackSkill() 
 		{
-			super(ESkill.DEFAULT_SKILL);
+			super(ESkill.ATTACK);
 			
 			mStateList.push(new State(EState.ATTACK, PlayerAsset.STRIKE));
 			mStateList.push(new State(EState.HIT, PlayerAsset.HIT));
