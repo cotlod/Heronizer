@@ -3,6 +3,8 @@ package combat
 	import combat.skill.DeadSkill;
 	import combat.skill.DefaultSkill;
 	import combat.skill.ToastSkill;
+	import combat.skill.WarpSkill;
+
 	/**
 	 * ...
 	 * @author ...
@@ -14,6 +16,7 @@ package combat
 		static public var DEFAULT_SKILL:ESkill = new ESkill(0, "DefaultSkill", DefaultSkill, 5, EStat.SPEED, EStat.ATTACK, EStat.CRIT_CHANCE)
 		static public var DEAD:ESkill = new ESkill(1, "Dead", DeadSkill, 4, EStat.RESPAWN_RATE, EStat.HEALTH);
 		static public var TOAST:ESkill = new ESkill(2, "Toast", ToastSkill, 10, EStat.ATTACK, EStat.SPEED, EStat.SKILL_DURATION, EStat.CRIT_CHANCE, EStat.XP_MODIFIER);
+		static public var WARP:ESkill = new ESkill(3, "Warp", WarpSkill, 2);
 		
 		public var ID:int;
 		public var Name:String;

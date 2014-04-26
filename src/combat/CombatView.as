@@ -48,6 +48,11 @@ package combat
 			mHud.AddXP(aValue);
 		}
 		
+		public function ToggleBackground():void
+		{
+			mBackground.ToggleBackground();
+		}
+		
 		private function OnStatDisplayComplete(e:Event):void 
 		{
 			var statDisplay:StatDisplay = e.target as StatDisplay;

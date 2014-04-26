@@ -18,14 +18,20 @@ package combat
 			super();
 			
 			mPlayerAsset = new PlayerAsset();
+			
 			mCharacterStat.AddStat(new Stat(1, 0, EStat.XP_MODIFIER));
+			
 			Name = "Player";
+			
 			mView.y = OffsetValues.STAGE_HEIGHT - 300;
 			//mView.width = 100;
 			
 			mSkillList.length = 0;
 			mSkillList.push(ESkill.DEFAULT_SKILL);
 			mSkillList.push(ESkill.TOAST);
+			mSkillList.push(ESkill.WARP);
+			
+			mView.y = OffsetValues.STAGE_HEIGHT - 300;
 		}
 		
 		override public function SetState(aState:int):Boolean 
