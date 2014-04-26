@@ -14,8 +14,8 @@ package combat
 		static public var DEFENSE:EStat = new EStat(3, "Defense");
 		static public var SKILL_COOLDOWN:EStat = new EStat(4, "SkilCooldown");
 		
-		public var id:int;
-		public var name:String;
+		public var ID:int;
+		public var Name:String;
 		
 		public function EStat(aID:int, aName:String) 
 		{
