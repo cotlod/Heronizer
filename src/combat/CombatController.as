@@ -17,13 +17,16 @@ package combat
 			mModel = new CombatModel();
 			mPlayer = new Player();
 			mEnemy = new Enemy();
+			mView.addChild(mPlayer.View);
+			mView.addChild(mEnemy.View);
 		}
 		
 		override public function Update():void
 		{
-			trace("deltatime = " + GameTime.DeltaTime);
+			trace("Combat ongoing!!!");
 			mPlayer.Update();
 			mEnemy.Update();
+			
 		}
 	}
 
