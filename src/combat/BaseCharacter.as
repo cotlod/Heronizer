@@ -46,6 +46,7 @@ package combat
 		
 		private function OnSkillStatModifier(e:SkillEvent):void 
 		{
+			e = new SkillEvent(e.type, e.StatModified, e.Value, e.Target);
 			dispatchEvent(e);
 		}
 		
