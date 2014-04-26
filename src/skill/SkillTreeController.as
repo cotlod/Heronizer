@@ -58,7 +58,7 @@ package skill
 			
 			mURLLoader = new URLLoader();
 			mURLLoader.addEventListener(Event.COMPLETE, OnSkillTreeLoaded);
-			mURLLoader.load(new URLRequest("SkillTree.json"));
+			mURLLoader.load(new URLRequest("document.json"));
 		}
 		
 		private function OnSkillTreeLoaded(aEvent:Event):void 
