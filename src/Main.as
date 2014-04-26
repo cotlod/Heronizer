@@ -37,10 +37,11 @@ package
 			mCombatController.addEventListener(CharacterEvent.XP_UPDATED, OnXPChanged);
 			mSkillTreeController = new SkillTreeController();
 			mSkillTreeController.addEventListener(SkillTreeEvent.SKILL_CHANGED, OnSkillChanged);
-			addChild(mCombatController.View);
+			
 			
 			mSkillTreeController.View.x = mCombatController.View.x + 400;
 			addChild(mSkillTreeController.View);
+			addChild(mCombatController.View);
 			
 			addEventListener(Event.ENTER_FRAME, Update);
 		}

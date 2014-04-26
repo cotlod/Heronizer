@@ -1,6 +1,7 @@
 package combat.ui 
 {
 	import combat.ECharacter;
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -11,6 +12,12 @@ package combat.ui
 	 */
 	public class Hud extends Sprite
 	{
+		[Embed(source="../../../bin/assets/UI_Frame_01.png")]
+		private var mUIFrame01Class:Class;
+		private var mUIFrame01:Bitmap;
+		[Embed(source="../../../bin/assets/UI_Frame_02.png")]
+		private var mUIFrame02Class:Class;
+		private var mUIFrame02:Bitmap;
 		private var mPlayerHealthBar:HealthBar;
 		private var mEnemyHealthBar:HealthBar;
 		private var mXP:TextField;
@@ -21,6 +28,8 @@ package combat.ui
 			mEnemyHealthBar = new HealthBar();
 			mXP = new TextField();
 			mSkillCountdownBar = new SkillCountdown();
+			mUIFrame01 = new mUIFrame01Class();
+			mUIFrame02 = new mUIFrame02Class();
 			
 			mXP = new TextField();
 			var tempFormat:TextFormat = new TextFormat("Arial", 16, 0xB200FF, true);
@@ -32,11 +41,14 @@ package combat.ui
 			addChild(mEnemyHealthBar);
 			addChild(mXP);
 			addChild(mSkillCountdownBar);
+			addChild(mUIFrame01);
+			addChild(mUIFrame02);
 			
 			mPlayerHealthBar.y = OffsetValues.HEALTH_BARS_Y_OFFSET;
 			mEnemyHealthBar.y = OffsetValues.HEALTH_BARS_Y_OFFSET;
 			mEnemyHealthBar.x = OffsetValues.COMBAT_VIEW_WIDTH - mEnemyHealthBar.width;
 			mSkillCountdownBar.x = OffsetValues.COMBAT_VIEW_WIDTH / 2;
+			mUIFrame02.x = 463;
 		}
 		
 		public function SetHealthBar(aCharacterId:int, aRatio:Number):void
