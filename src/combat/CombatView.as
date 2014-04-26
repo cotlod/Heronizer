@@ -1,11 +1,12 @@
 package combat 
 {
 	import combat.ui.Hud;
+	import mvc.BaseView;
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class CombatView 
+	public class CombatView extends BaseView
 	{
 		private var mBackground:Background;
 		private var mHud:Hud;
@@ -16,6 +17,10 @@ package combat
 			mHud = new Hud();
 		}
 		
+		override public function Update():void
+		{
+			
+		}
 	}
 
 }

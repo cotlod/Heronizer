@@ -6,7 +6,7 @@ package util
 	 */
 	public interface IUpdatable 
 	{
-		public function Update():void;
+		function Update():void;
 	}
 
 }

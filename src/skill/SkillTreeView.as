@@ -1,5 +1,6 @@
 package skill 
 {
+	import mvc.BaseView;
 	/**
 	 * ...
 	 * @author 
