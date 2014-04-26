@@ -1,10 +1,12 @@
 package combat 
 {
+	import mvc.BaseController;
+	import util.GameTime;
 	/**
 	 * ...
 	 * @author 
 	 */
-	public class BaseCharacter 
+	public class BaseCharacter extends BaseController
 	{
 		public var Strength:int = 1;
 		public var Speed:int = 1;
@@ -12,10 +14,10 @@ package combat
 		
 		public function BaseCharacter() 
 		{
-			
+			mView = new CharacterView();
 		}
 		
-		public function Update():void
+		override public function Update():void
 		{
 			
 		}

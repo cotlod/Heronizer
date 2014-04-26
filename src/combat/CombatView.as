@@ -15,6 +15,8 @@ package combat
 		{
 			mBackground = new Background();
 			mHud = new Hud();
+			addChild(mBackground);
+			addChild(mHud);
 		}
 		
 		override public function Update():void
