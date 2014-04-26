@@ -88,8 +88,7 @@ package skill
 				mCurrentNode.Position.y = Stage2D.mouseY;
 			}
 			
-			mSkillTreeView.x = mScrollOffset.x;
-			mSkillTreeView.y = mScrollOffset.y;
+			mSkillTreeView.SetOffset(mScrollOffset);
 			
 			mSkillTreeView.Update();
 			

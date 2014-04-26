@@ -1,6 +1,7 @@
 package skill 
 {
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	import mvc.BaseView;
 	/**
 	 * ...
@@ -9,6 +10,7 @@ package skill
 	public class SkillTreeView extends BaseView
 	{
 		private var mMask:Sprite;
+		private var mScrollOffset:Point;
 		
 		public function SkillTreeView() 
 		{
@@ -35,8 +37,8 @@ package skill
 			for (var i:int = 0; i < connectionList.length; i++) 
 			{
 				graphics.lineStyle(2, 0x000000);
-				graphics.moveTo(aSkillNode.Position.x, aSkillNode.y);
-				graphics.lineTo(connectionList[i].Position.x, connectionList[i].y);
+				graphics.moveTo(aSkillNode.Position.x + mScrollOffset.x, aSkillNode.y + mScrollOffset.y);
+				graphics.lineTo(connectionList[i].Position.x + mScrollOffset.x, connectionList[i].y + mScrollOffset.y);
 			}
 			
 			addChild(aSkillNode);
@@ -47,6 +49,11 @@ package skill
 			graphics.clear();
 			
 			super.Update();
+		}
+		
+		public function SetOffset(aScrollOffset:Point):void 
+		{
+			mScrollOffset = aScrollOffset;
 		}
 	}
 
