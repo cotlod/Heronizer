@@ -20,8 +20,7 @@ package combat.ui
 			
 			mTextField.text = aText;
 			mTextField.selectable = false;
-			mTextField.setTextFormat(new TextFormat("Arial", 14, aColor, true));
-			//mTextField.textColor = aColor;
+			mTextField.setTextFormat(new TextFormat("Arial", 20, aColor, true));
 			addChild(mTextField);
 		}
 		
@@ -30,7 +29,6 @@ package combat.ui
 			mTimeDisplayed += GameTime.DeltaTime;
 			if (mTimeDisplayed >= TIME_TO_DISAPPEAR)
 			{
-				//delete it
 				removeChild(mTextField);
 				mTextField = null;
 				dispatchEvent(new Event(Event.COMPLETE));

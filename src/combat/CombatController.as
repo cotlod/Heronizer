@@ -19,24 +19,33 @@ package combat
 			mModel = new CombatModel();
 			mPlayer = new Player();
 			mEnemy = new Enemy();
+			
 			mView.addChild(mPlayer.View);
 			mView.addChild(mEnemy.View);
 			
 			//event listeners
 			mPlayer.addEventListener(CharacterEvent.ATTACK, OnPlayerAttack);
 			mPlayer.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnPlayerReceivedDamage);
+			mPlayer.addEventListener(CharacterEvent.CHANGED_SKILL, OnPlayerChangedSkill);
 			mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
+		}
+		
+		private function OnPlayerChangedSkill(e:CharacterEvent):void 
+		{
+			trace("Player goes to another skill");
 		}
 		
 		private function OnEnemyReceivedDamage(e:CharacterEvent):void 
 		{
 			(mView as CombatView).DisplayStat("-" + mPlayer.Attack.Value + " HP", 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+			(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.Health.Value / mEnemy.Health.OriginalValue);
 		}
 		
 		private function OnPlayerReceivedDamage(e:CharacterEvent):void 
 		{
 			(mView as CombatView).DisplayStat("-" + mEnemy.Attack.Value + " HP", 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
+			(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.Health.Value / mPlayer.Health.OriginalValue);
 		}
 		
 		private function OnEnemyAttack(e:CharacterEvent):void 

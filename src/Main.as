@@ -32,7 +32,7 @@ package
 			// entry point
 			Stage2D = stage;
 			mCombatController = new CombatController();
-			mCombatController.addEventListener(CharacterEvent.CHANGED, OnCharacterChanged);
+			mCombatController.addEventListener(CharacterEvent.XP_UPDATED, OnXPChanged);
 			mSkillTreeController = new SkillTreeController();
 			mSkillTreeController.addEventListener(SkillTreeEvent.SKILL_CHANGED, OnSkillChanged);
 			addChild(mCombatController.View);
@@ -43,7 +43,7 @@ package
 			addEventListener(Event.ENTER_FRAME, Update);
 		}
 		
-		private function OnCharacterChanged(aEvent:CharacterEvent):void 
+		private function OnXPChanged(aEvent:CharacterEvent):void 
 		{
 			mSkillTreeController.SetXP(0 /*TODO: Update XP*/);
 		}

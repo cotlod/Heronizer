@@ -33,6 +33,11 @@ package combat
 			mStatDisplayList.push(tempDisplay);
 		}
 		
+		public function SetHealthBar(aCharacterId:int, aRatio:Number):void
+		{
+			mHud.SetHealthBar(aCharacterId, aRatio);
+		}
+		
 		private function OnStatDisplayComplete(e:Event):void 
 		{
 			var statDisplay:StatDisplay = e.target as StatDisplay;

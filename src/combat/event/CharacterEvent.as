@@ -11,7 +11,9 @@ package combat.event
 		public static const ATTACK:String = "Character_Attack";
 		public static const RECEIVED_DAMAGE:String = "Character_Received_Damage";
 		public static const DIED:String = "Character_Died";
-		public static const CHANGED:String = "Character_Changed";
+		public static const XP_UPDATED:String = "Character_Updated";
+		public static const CHANGED_SKILL:String = "Character_ChangedSkill";
+		
 		public function CharacterEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false) 
 		{ 
 			super(type, bubbles, cancelable);
