@@ -11,11 +11,11 @@ package combat
 	public class Skill extends EventDispatcher implements IUpdatable
 	{
 		private var mType:ESkill;
-		private var mElapsed:Number
+		private var mElapsed:Number = 0
 		private var mStarted:Boolean;
 		private var mCompleted:Boolean;
 		protected var mState:int = EState.IDLE;
-		protected var mDuration:Number;
+		protected var mDuration:Number = 0;
 		
 		public function Skill(aType:ESkill) 
 		{
@@ -38,7 +38,7 @@ package combat
 		public function Stop():void 
 		{
 			mStarted = false;
-			dispatchEvent(new SkillEvent(SkillEvent.DONE));
+			//dispatchEvent(new SkillEvent(SkillEvent.DONE));
 		}
 		
 		public function get Type():ESkill { return(mType); }

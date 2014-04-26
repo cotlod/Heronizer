@@ -43,7 +43,12 @@ package combat
 		override public function SetState(aState:int):void 
 		{
 			super.SetState(aState);
-			mView.removeChildAt(0);
+			
+			if (mView.numChildren > 0)
+			{
+				mView.removeChildAt(0);
+			}
+			
 			switch(aState)
 			{
 				case EState.IDLE:

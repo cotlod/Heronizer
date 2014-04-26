@@ -17,7 +17,7 @@ package combat
 		private static const TIME_IN_ATTACK_HIT_STATE:Number = 1;
 		protected var Name:String = "";
 		public var Health:Stat = new Stat(10, 0, EStat.HEALTH);
-		public var Speed:Stat = new Stat(5, 0, EStat.SPEED);
+		public var Speed:Stat = new Stat(1, 0, EStat.SPEED);
 		public var Attack:Stat = new Stat(1, 0, EStat.ATTACK);
 		public var Defense:Stat = new Stat(1, 0, EStat.DEFENSE);
 		public var CriticalChance:Stat = new Stat(10, 0, EStat.CRIT_CHANCE);
@@ -42,13 +42,23 @@ package combat
 			mStatList.push(Defense);
 			mStatList.push(CriticalChance);
 			
-			SetSkill(new DefaultSkill());
-			
 			mSkillList.push(ESkill.DEFAULT_SKILL);
+		}
+		
+		public function Init()
+		{
+			SetSkill(new DefaultSkill());
 		}
 		
 		public function SetSkill(aSkill:Skill):void 
 		{
+			if (mCurrentSkill)
+			{
+				mCurrentSkill.removeEventListener(SkillEvent.STARTED, OnSkillStarted);
+				mCurrentSkill.removeEventListener(SkillEvent.DONE, OnSkillDone);
+				mCurrentSkill.Stop();
+			}
+			
 			mCurrentSkill = aSkill;
 			mCurrentSkill.addEventListener(SkillEvent.STARTED, OnSkillStarted);
 			mCurrentSkill.addEventListener(SkillEvent.DONE, OnSkillDone);
@@ -62,16 +72,12 @@ package combat
 		
 		private function OnSkillDone(aEvent:Event):void 
 		{
-			if (Health.Value <= 0)
+			var randomSkill:ESkill = mSkillList[int(Math.random() * mSkillList.length)];
+			
+			var skill:Skill = new randomSkill.Definition();
+			
+			if (randomSkill.StatList)
 			{
-				SetSkill(new DeadSkill());
-			}
-			else
-			{
-				var randomSkill:ESkill = mSkillList[int(Math.random() * mSkillList.length)];
-				
-				var skill:Skill = new randomSkill.Definition();
-				
 				var characterStatList:Vector.<Stat> = new  Vector.<Stat>();
 				
 				for (var i:int = 0; i < randomSkill.StatList.length; i++) 
@@ -87,9 +93,9 @@ package combat
 					
 					skill.SetStat(characterStatList);
 				}
-				
-				SetSkill(skill);
 			}
+			
+			SetSkill(skill);
 		}
 		
 		public function ReceiveDamage(aDamage:int):void
@@ -101,7 +107,7 @@ package combat
 			
 			if (Health.Value <= 0)
 			{
-				mCurrentSkill.Stop();
+				SetSkill(new DeadSkill());
 			}
 			else
 			{
@@ -113,6 +119,7 @@ package combat
 		{
 			//override for visual
 			mCurrentState = aState;
+			
 			if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
 			{
 				mAttackHitTimer = 0;
