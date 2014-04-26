@@ -1,4 +1,4 @@
-package combat 
+package combat
 {
 	import combat.event.CharacterEvent;
 	import combat.skill.DeadSkill;
@@ -9,9 +9,10 @@ package combat
 	import skill.SkillUpdate;
 	import util.GameTime;
 	import util.OffsetValues;
+	
 	/**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 	public class CombatController extends BaseController
 	{
@@ -25,7 +26,7 @@ package combat
 		private var mShakeX:Number;
 		private var mShakeY:Number;
 		
-		public function CombatController() 
+		public function CombatController()
 		{
 			mView = new CombatView();
 			mModel = new CombatModel();
@@ -49,11 +50,25 @@ package combat
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
 		}
 		
-		private function OnEnemyClick(e:MouseEvent):void 
+		private function OnEnemyClick(e:MouseEvent):void
 		{
-			var health:Stat = mEnemy.GetStatByID(EStat.HEALTH.ID);
-			health.Value = health.Value-1;
+			Shake(10);
 			
+			if (mEnemy.CurrentSkill.Type.ID == ESkill.DEAD.ID)
+			{
+				return;
+			}
+			
+			var health:Stat = mEnemy.GetStatByID(EStat.HEALTH.ID);
+			health.Value = health.Value - 1;
+			
+			CheckDead(mEnemy);
+			
+			OnEnemyReceivedDamage(null);
+		}
+		
+		private function Shake(aTime:int):void 
+		{
 			if (!isNaN(mShakeX))
 			{
 				mEnemy.View.x = mShakeX;
@@ -61,19 +76,17 @@ package combat
 			}
 			
 			mShake = true;
-			mShakeTime = 10;
+			mShakeTime = aTime;
 			mShakeX = mEnemy.View.x;
 			mShakeY = mEnemy.View.y;
-			
-			OnEnemyReceivedDamage(null);
 		}
 		
-		private function OnBackgroundChange(e:SkillEvent):void 
+		private function OnBackgroundChange(e:SkillEvent):void
 		{
 			(mView as CombatView).ToggleBackground();
 		}
 		
-		private function OnEnemySkillStatModifier(e:SkillEvent):void 
+		private function OnEnemySkillStatModifier(e:SkillEvent):void
 		{
 			var statToModify:Stat;
 			if (e.Target == ETarget.SELF)
@@ -89,7 +102,7 @@ package combat
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
 				}
 			}
-			else 
+			else
 			{
 				statToModify = mPlayer.GetStatByID(e.StatModified.ID);
 				if (statToModify != null)
@@ -107,20 +120,25 @@ package combat
 				}
 			}
 			
+			CheckDead(mEnemy);
+		}
+		
+		private function CheckDead(aCharacter:BaseCharacter):void
+		{
 			if (mEnemy.GetStatByID(EStat.HEALTH.ID).Value <= 0)
 			{
 				var xpValueStat:Stat = mEnemy.GetStatByID(EStat.XP_VALUE.ID);
 				
 				//var enemyXPValue:Number = xpValueStat.Value 
-				var enemyXPValue:Number =100;
-				var playerXPModifier:Number = mPlayer.GetStatByID(EStat.XP_MODIFIER.ID).Value 
+				var enemyXPValue:Number = 100;
+				var playerXPModifier:Number = mPlayer.GetStatByID(EStat.XP_MODIFIER.ID).Value
 				var xp:Number = enemyXPValue * playerXPModifier;
 				dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
 				mEnemy.SetSkill(new DeadSkill());
 			}
 		}
 		
-		private function OnPlayerSkillStatModifier(e:SkillEvent):void 
+		private function OnPlayerSkillStatModifier(e:SkillEvent):void
 		{
 			var statToModify:Stat;
 			if (e.Target == ETarget.SELF)
@@ -137,7 +155,7 @@ package combat
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
 				}
 			}
-			else 
+			else
 			{
 				statToModify = mEnemy.GetStatByID(e.StatModified.ID);
 				if (statToModify != null)
@@ -153,6 +171,8 @@ package combat
 					}
 					(mView as CombatView).DisplayStat(e.Value + " " + statToModify.Type.Name, 0xFF0000, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
 				}
+				
+				Shake(12);
 			}
 			
 			if (mPlayer.GetStatByID(EStat.HEALTH.ID).Value <= 0)
@@ -161,17 +181,17 @@ package combat
 			}
 		}
 		
-		private function OnPlayerChangedSkill(e:CharacterEvent):void 
+		private function OnPlayerChangedSkill(e:CharacterEvent):void
 		{
 			trace("Player goes to another skill");
 		}
 		
-		private function OnEnemyReceivedDamage(e:CharacterEvent):void 
+		private function OnEnemyReceivedDamage(e:CharacterEvent):void
 		{
 			(mView as CombatView).SetHealthBar(ECharacter.ENEMY, mEnemy.GetStatByID(EStat.HEALTH.ID).Value / mEnemy.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 		}
 		
-		private function OnPlayerReceivedDamage(e:CharacterEvent):void 
+		private function OnPlayerReceivedDamage(e:CharacterEvent):void
 		{
 			(mView as CombatView).SetHealthBar(ECharacter.PLAYER, mPlayer.GetStatByID(EStat.HEALTH.ID).Value / mPlayer.GetStatByID(EStat.HEALTH.ID).OriginalValue);
 		}
@@ -184,17 +204,17 @@ package combat
 		public function SetSkillUpdate(aSkillUpdate:SkillUpdate):void
 		{
 			//update stats with modifiers
-			for each(var playerStat:Stat in mPlayer.GetStatList())
+			for each (var playerStat:Stat in mPlayer.GetStatList())
 			{
 				playerStat.Value = playerStat.OriginalValue;
 				var modifierList:Vector.<Stat> = aSkillUpdate.GetStatListById(playerStat.Type.ID);
-				for each(var modifierStat:Stat in modifierList)
+				for each (var modifierStat:Stat in modifierList)
 				{
 					playerStat.Value += modifierStat.Value;
 				}
 			}
 			mSkillList.length = 0;
-			for each(var skill:Skill in aSkillUpdate)
+			for each (var skill:Skill in aSkillUpdate)
 			{
 				mSkillList.push(skill);
 			}
@@ -214,8 +234,8 @@ package combat
 				mEnemy.View.x = mShakeX;
 				mEnemy.View.y = mShakeY;
 				
-				mEnemy.View.x += Math.random() * 10 -20;
-				mEnemy.View.y += Math.random() * 10 -20;
+				mEnemy.View.x += Math.random() * 10 - 20;
+				mEnemy.View.y += Math.random() * 10 - 20;
 				
 				if (mShakeTime == 0)
 				{

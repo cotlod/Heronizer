@@ -24,6 +24,17 @@ package combat
 			Name = "Player";
 			
 			mView.y = OffsetValues.STAGE_HEIGHT - 300;
+			
+			mSkillList.push(ESkill.ATTACK);
+			mSkillList.push(ESkill.HEALER);
+			mSkillList.push(ESkill.DEATH_DEALER);
+			mSkillList.push(ESkill.FIRE);
+			mSkillList.push(ESkill.MEGA_DICK);
+			mSkillList.push(ESkill.MIDGET);
+			mSkillList.push(ESkill.PINCER);
+			mSkillList.push(ESkill.ROID_UP);
+			mSkillList.push(ESkill.TOAST);
+			mSkillList.push(ESkill.WARP);
 		}
 		
 		override public function SetState(aState:int):Boolean 
