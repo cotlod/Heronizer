@@ -14,6 +14,7 @@ package combat
 		public function Enemy() 
 		{
 			super();
+			Name = "Enemy";
 			mEnemyVisual = new mEnemyClass();
 			mView.addChild(mEnemyVisual);
 			mView.width = 100;

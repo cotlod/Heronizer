@@ -23,9 +23,9 @@ package combat
 		
 		override public function Update():void
 		{
-			trace("Combat ongoing!!!");
 			mPlayer.Update();
 			mEnemy.Update();
+			
 			
 		}
 	}

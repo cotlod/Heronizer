@@ -10,9 +10,11 @@ package combat
 		public var Modifier:Number;
 		public var Type:EStat;
 		
-		public function Stat() 
+		public function Stat(aValue:Number, aModifier:Number, aType:EStat) 
 		{
-			
+			Value = aValue;
+			Modifier = aModifier;
+			Type = aType;
 		}
 		
 	}

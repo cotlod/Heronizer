@@ -13,6 +13,7 @@ package combat
 		public function Player() 
 		{
 			super();
+			Name = "Player";
 			mPlayerVisual = new mPlayerClass();
 			mView.addChild(mPlayerVisual);
 			mView.width = 100;
