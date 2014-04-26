@@ -11,6 +11,7 @@ package combat.ui
 	 */
 	public class StatDisplay extends Sprite
 	{
+		private const OVER_TIME_Y:Number = -2;
 		private static const TIME_TO_DISAPPEAR:Number = 3;
 		private var mTimeDisplayed:Number = 0;
 		private var mTextField:TextField;
@@ -27,6 +28,7 @@ package combat.ui
 		
 		public function Update():void
 		{
+			y += OVER_TIME_Y;
 			mTimeDisplayed += GameTime.DeltaTime;
 			if (mTimeDisplayed >= TIME_TO_DISAPPEAR)
 			{
