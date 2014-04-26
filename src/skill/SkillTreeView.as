@@ -40,16 +40,32 @@ package skill
 		
 		public function Render(aSkillNode:SkillNode):void
 		{
+			aSkillNode.Rendered = true;
+			
 			var connectionList:Vector.<SkillNode> = aSkillNode.Connection.NodeList
 			
 			for (var i:int = 0; i < connectionList.length; i++) 
 			{
-				mPathContainer.graphics.lineStyle(2, 0x000000);
+				if (aSkillNode.Unlocked)
+				{
+					mPathContainer.graphics.lineStyle(2, 0x00FF00);
+				}
+				else
+				{
+					mPathContainer.graphics.lineStyle(2, 0xFF0000);
+				}
+				
+				var connectingNode:SkillNode = connectionList[i];
+				
+				if (connectingNode.Rendered) { continue; }
+				
 				mPathContainer.graphics.moveTo(aSkillNode.Position.x + mScrollOffset.x, aSkillNode.Position.y + mScrollOffset.y);
-				mPathContainer.graphics.lineTo(connectionList[i].Position.x + mScrollOffset.x, connectionList[i].Position.y + mScrollOffset.y);
+				mPathContainer.graphics.lineTo(connectingNode.Position.x + mScrollOffset.x, connectingNode.Position.y + mScrollOffset.y);
 			}
+			
 			aSkillNode.x = aSkillNode.Position.x + mScrollOffset.x;
 			aSkillNode.y = aSkillNode.Position.y + mScrollOffset.y;
+			
 			addChild(aSkillNode);
 		}
 		
