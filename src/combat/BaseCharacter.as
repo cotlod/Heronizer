@@ -1,5 +1,6 @@
 package combat 
 {
+	import combat.event.CharacterEvent;
 	import mvc.BaseController;
 	import util.GameTime;
 	/**
@@ -27,9 +28,11 @@ package combat
 			var finalDamage:int = aDamage / Defense.Value;
 			trace(Name + " received " + finalDamage + " to the face.");
 			Health.Value -= finalDamage;
+			dispatchEvent(new CharacterEvent(CharacterEvent.RECEIVED_DAMAGE));
 			if (Health.Value <= 0)
 			{
 				trace(Name + " is DEAD.");
+				dispatchEvent(new CharacterEvent(CharacterEvent.DIED));
 			}
 		}
 		
@@ -39,6 +42,7 @@ package combat
 			if (mAttackTimer >= Speed.Value)
 			{
 				trace("ATTACK");
+				dispatchEvent(new CharacterEvent(CharacterEvent.ATTACK));
 				mAttackTimer = mAttackTimer - Speed.Value;
 			}
 		}

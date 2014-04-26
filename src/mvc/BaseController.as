@@ -1,11 +1,12 @@
 package mvc 
 {
+	import flash.events.EventDispatcher;
 	import util.IUpdatable;
 	/**
 	 * ...
 	 * @author ...
 	 */
-	public class BaseController implements IUpdatable
+	public class BaseController extends EventDispatcher implements IUpdatable
 	{
 		protected var mView:BaseView;
 		protected var mModel:BaseModel;
