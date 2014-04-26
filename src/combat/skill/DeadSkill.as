@@ -26,6 +26,13 @@ package combat.skill
 			mDuration = ESkill.DEAD.Duration - (ESkill.DEAD.Duration * aStatList[0].Value);
 		}
 		
+		override protected function Completed():void 
+		{
+			mStatList[1].Value = mStatList[1].OriginalValue;
+			
+			super.Completed();
+		}
+		
 		override public function Update():void 
 		{
 			super.Update();

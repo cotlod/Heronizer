@@ -41,11 +41,12 @@ package combat
 			mStatList.push(Attack);
 			mStatList.push(Defense);
 			mStatList.push(CriticalChance);
+			mStatList.push(RespawnRate);
 			
 			mSkillList.push(ESkill.DEFAULT_SKILL);
 		}
 		
-		public function Init()
+		public function Init():void
 		{
 			SetSkill(new DefaultSkill());
 		}
@@ -62,6 +63,26 @@ package combat
 			mCurrentSkill = aSkill;
 			mCurrentSkill.addEventListener(SkillEvent.STARTED, OnSkillStarted);
 			mCurrentSkill.addEventListener(SkillEvent.DONE, OnSkillDone);
+			
+			if (mCurrentSkill.Type.StatList)
+			{
+				var characterStatList:Vector.<Stat> = new  Vector.<Stat>();
+				
+				for (var i:int = 0; i < mCurrentSkill.Type.StatList.length; i++) 
+				{
+					for (var j:int = 0; j < mStatList.length; j++) 
+					{
+						if (mStatList[j].Type.ID == mCurrentSkill.Type.StatList[i].ID)
+						{
+							characterStatList.push(mStatList[j]);
+							break;
+						}
+					}
+				}
+				
+				mCurrentSkill.SetStat(characterStatList);
+			}
+			
 			mCurrentSkill.Start();
 		}
 		
@@ -76,30 +97,13 @@ package combat
 			
 			var skill:Skill = new randomSkill.Definition();
 			
-			if (randomSkill.StatList)
-			{
-				var characterStatList:Vector.<Stat> = new  Vector.<Stat>();
-				
-				for (var i:int = 0; i < randomSkill.StatList.length; i++) 
-				{
-					for (var j:int = 0; j < mStatList.length; j++) 
-					{
-						if (mStatList[j].Type.ID == randomSkill.StatList[i].ID)
-						{
-							characterStatList.push(mStatList[j]);
-							break;
-						}
-					}
-					
-					skill.SetStat(characterStatList);
-				}
-			}
-			
 			SetSkill(skill);
 		}
 		
 		public function ReceiveDamage(aDamage:int):void
 		{
+			if (mCurrentState == EState.DEAD) { return; }
+			
 			var finalDamage:int = aDamage / Defense.Value;
 			trace(Name + " received " + finalDamage + " to the face.");
 			Health.Value -= finalDamage;
@@ -120,7 +124,7 @@ package combat
 			//override for visual
 			mCurrentState = aState;
 			
-			if (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT)
+			if (mCurrentState != EState.DEAD && (mCurrentState == EState.ATTACK || mCurrentState == EState.HIT))
 			{
 				mAttackHitTimer = 0;
 			}
@@ -129,6 +133,7 @@ package combat
 		override public function Update():void
 		{
 			mCurrentSkill.Update();
+			
 			mAttackTimer += GameTime.DeltaTime;
 			if (mAttackTimer >= Speed.Value)
 			{

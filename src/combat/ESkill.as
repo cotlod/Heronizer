@@ -12,7 +12,7 @@ package combat
 		
 		
 		static public var DEFAULT_SKILL:ESkill = new ESkill(0, "DefaultSkill", DefaultSkill, 10)
-		static public var DEAD:ESkill = new ESkill(1, "Dead", DeadSkill, 10, new Vector.<EStat>(EStat.RESPAWN_RATE))
+		static public var DEAD:ESkill = new ESkill(1, "Dead", DeadSkill, 10, EStat.RESPAWN_RATE, EStat.HEALTH)
 		
 		public var ID:int;
 		public var Name:String;
@@ -20,13 +20,18 @@ package combat
 		public var Duration:Number;
 		public var StatList:Vector.<EStat>;
 		
-		public function ESkill(aID:int, aName:String, aDefinition:Class, aDuration:Number, aStatList:Vector.<EStat> = null) 
+		public function ESkill(aID:int, aName:String, aDefinition:Class, aDuration:Number, ...statList) 
 		{
 			ID = aID;
 			Name = aName;
 			Definition = aDefinition;
 			Duration = aDuration;
-			StatList = aStatList;
+			StatList = new Vector.<EStat>();
+			
+			for each(var stat:EStat in statList)
+			{
+				StatList.push(stat);
+			}
 			
 			mESkillList.push(this);
 		}
