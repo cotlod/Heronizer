@@ -3,22 +3,23 @@ package combat
 	import combat.event.CharacterEvent;
 	import flash.display.Bitmap;
 	import util.GameTime;
+	import util.OffsetValues;
 	/**
 	 * ...
 	 * @author 
 	 */
 	public class Player extends BaseCharacter 
 	{
-		[Embed(source="../../bin/assets/superman_idle.gif")]
+		[Embed(source="../../bin/assets/Heros_Idle.png")]
 		private var mPlayerIdleClass:Class;
 		private var mPlayerIdleVisual:Bitmap;
-		[Embed(source="../../bin/assets/superman_attack.gif")]
+		[Embed(source="../../bin/assets/Heros_Strike.png")]
 		private var mPlayerAttackClass:Class;
 		private var mPlayerAttackVisual:Bitmap;
-		[Embed(source="../../bin/assets/superman_hit.gif")]
+		[Embed(source="../../bin/assets/Heros_Hit.png")]
 		private var mPlayerHitClass:Class;
 		private var mPlayerHitVisual:Bitmap;
-		[Embed(source="../../bin/assets/superman_dead.gif")]
+		[Embed(source="../../bin/assets/Heros_Death.png")]
 		private var mPlayerDeadClass:Class;
 		private var mPlayerDeadVisual:Bitmap;
 		private var mSkillTimer:Number = 0;
@@ -28,14 +29,15 @@ package combat
 		public function Player() 
 		{
 			super();
-			Speed.Value -= 2;
+			mStatList.push(XpModifier);
 			Name = "Player";
 			mPlayerIdleVisual = new mPlayerIdleClass();
 			mPlayerAttackVisual = new mPlayerAttackClass();
 			mPlayerHitVisual = new mPlayerHitClass();
 			mPlayerDeadVisual = new mPlayerDeadClass();
 			mView.addChild(mPlayerIdleVisual);
-			mView.width = 100;
+			mView.y = OffsetValues.STAGE_HEIGHT - mView.height;
+			//mView.width = 100;
 		}
 		
 		override public function SetState(aState:int):void 

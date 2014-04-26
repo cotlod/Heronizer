@@ -1,22 +1,23 @@
 package combat 
 {
 	import flash.display.Bitmap;
+	import util.OffsetValues;
 	/**
 	 * ...
 	 * @author 
 	 */
 	public class Enemy extends BaseCharacter 
 	{
-		[Embed(source="../../bin/assets/joffrey_idle.jpg")]
+		[Embed(source="../../bin/assets/Vilain01_Idle.png")]
 		private var mEnemyIdleClass:Class;
 		private var mEnemyIdleVisual:Bitmap;
-		[Embed(source="../../bin/assets/joffrey_attack.jpg")]
+		[Embed(source="../../bin/assets/Vilain01_Strike.png")]
 		private var mEnemyAttackClass:Class;
 		private var mEnemyAttackVisual:Bitmap;
-		[Embed(source="../../bin/assets/joffrey_hit.jpg")]
+		[Embed(source="../../bin/assets/Vilain01_Hit.png")]
 		private var mEnemyHitClass:Class;
 		private var mEnemyHitVisual:Bitmap;
-		[Embed(source="../../bin/assets/joffrey_dead.jpg")]
+		[Embed(source="../../bin/assets/Vilain01_Death.png")]
 		private var mEnemyDeadClass:Class;
 		private var mEnemyDeadVisual:Bitmap;
 		
@@ -29,8 +30,9 @@ package combat
 			mEnemyDeadVisual = new mEnemyDeadClass();
 			mEnemyHitVisual = new mEnemyHitClass();
 			mView.addChild(mEnemyIdleVisual);
-			mView.width = 100;
-			mView.x = 300;
+			//mView.width = 100;
+			mView.x = OffsetValues.COMBAT_VIEW_WIDTH - mView.width;
+			mView.y = OffsetValues.STAGE_HEIGHT - mView.height;
 		}
 		
 		override public function SetState(aState:int):void 

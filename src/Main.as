@@ -7,6 +7,7 @@ package
 	import flash.utils.getTimer;
 	import skill.event.SkillTreeEvent;
 	import skill.SkillTreeController;
+	import skill.SkillUpdate;
 	import util.GameTime;
 	import util.Stage2D;
 	
@@ -50,7 +51,8 @@ package
 		
 		private function OnSkillChanged(aEvent:SkillTreeEvent):void 
 		{
-			mSkillTreeController.ComputeSkill();
+			var skillUpdate:SkillUpdate = mSkillTreeController.ComputeSkill();
+			mCombatController.SetSkillUpdate(skillUpdate);
 		}
 		
 		private function Update(e:Event):void 

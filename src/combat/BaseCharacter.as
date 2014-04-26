@@ -19,6 +19,7 @@ package combat
 		public var SkillDuration:Stat = new Stat(20, 0, EStat.SKILL_DURATION);
 		public var CriticalChance:Stat = new Stat(10, 0, EStat.CRIT_CHANCE);
 		
+		public var mStatList:Vector.<Stat> = new Vector.<Stat>();
 		private var mAttackTimer:Number = 0;
 		private var mAttackHitTimer:Number = 0;
 		private var mCurrentState:int = EState.IDLE;
@@ -27,6 +28,12 @@ package combat
 		{
 			mView = new CharacterView();
 			mView.y = OffsetValues.CHARACTERS_Y_OFFSET;
+			mStatList.push(Health);
+			mStatList.push(Speed);
+			mStatList.push(Attack);
+			mStatList.push(Defense);
+			mStatList.push(SkillDuration);
+			mStatList.push(CriticalChance);
 		}
 		
 		public function ReceiveDamage(aDamage:int):void

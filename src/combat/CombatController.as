@@ -3,7 +3,9 @@ package combat
 	import combat.event.CharacterEvent;
 	import flash.geom.Point;
 	import mvc.BaseController;
+	import skill.SkillUpdate;
 	import util.GameTime;
+	import util.OffsetValues;
 	/**
 	 * ...
 	 * @author 
@@ -12,6 +14,8 @@ package combat
 	{
 		private var mPlayer:Player;
 		private var mEnemy:Enemy;
+		private var mCombatOver:Boolean = false;
+		private var mSkillList:Vector.<Skill> = new Vector.<Skill>();
 		
 		public function CombatController() 
 		{
@@ -28,9 +32,15 @@ package combat
 			mPlayer.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnPlayerReceivedDamage);
 			mPlayer.addEventListener(CharacterEvent.CHANGED_SKILL, OnPlayerChangedSkill);
 			mPlayer.addEventListener(CharacterEvent.SKILL_COOLDOWN_UPDATE, OnPlayerCooldownUpdate);
+			mPlayer.addEventListener(CharacterEvent.DIED, OnPlayerDied);
 			mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
 			mEnemy.addEventListener(CharacterEvent.DIED, OnEnemyDied);
+		}
+		
+		private function OnPlayerDied(e:CharacterEvent):void 
+		{
+			OnCombatOver();
 		}
 		
 		private function OnEnemyDied(e:CharacterEvent):void 
@@ -39,6 +49,7 @@ package combat
 			var xp:Number = 1 * mPlayer.XpModifier.Value;
 			(mView as CombatView).AddXP(xp);
 			dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
+			OnCombatOver();
 		}
 		
 		private function OnPlayerCooldownUpdate(e:CharacterEvent):void 
@@ -65,30 +76,60 @@ package combat
 		
 		private function OnEnemyAttack(e:CharacterEvent):void 
 		{
-			var damage:Number = mEnemy.Attack.Value;
-			var critRatio:Number = mEnemy.CriticalChance.Value / 100;
-			if (Math.random() <= critRatio)
+			if (!mCombatOver)
 			{
-				//CRITICAL
-				damage *= 2;
-				(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2)));
+				var damage:Number = mEnemy.Attack.Value;
+				var critRatio:Number = mEnemy.CriticalChance.Value / 100;
+				if (Math.random() <= critRatio)
+				{
+					//CRITICAL
+					damage *= 2;
+					(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mEnemy.View.x + (mEnemy.View.width / 2), mEnemy.View.y + (mEnemy.View.height / 2) - OffsetValues.CRITICAL_UI_Y_OFFSET));
+				}
+				mEnemy.SetState(EState.ATTACK);
+				mPlayer.ReceiveDamage(damage);
 			}
-			mEnemy.SetState(EState.ATTACK);
-			mPlayer.ReceiveDamage(damage);
 		}
 		
 		private function OnPlayerAttack(e:CharacterEvent):void 
 		{
-			var damage:Number = mPlayer.Attack.Value;
-			var critRatio:Number = mPlayer.CriticalChance.Value / 100;
-			if (Math.random() <= critRatio)
+			if (!mCombatOver)
 			{
-				//CRITICAL
-				damage *= 2;
-				(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2)));
+				var damage:Number = mPlayer.Attack.Value;
+				var critRatio:Number = mPlayer.CriticalChance.Value / 100;
+				if (Math.random() <= critRatio)
+				{
+					//CRITICAL
+					damage *= 2;
+					(mView as CombatView).DisplayStat("CRITICAL HIT!!1!!", 0xFFFFFF, new Point(mPlayer.View.x + (mPlayer.View.width / 2), mPlayer.View.y + (mPlayer.View.height / 2) - OffsetValues.CRITICAL_UI_Y_OFFSET));
+				}
+				mPlayer.SetState(EState.ATTACK);
+				mEnemy.ReceiveDamage(damage);
 			}
-			mPlayer.SetState(EState.ATTACK);
-			mEnemy.ReceiveDamage(damage);
+		}
+		
+		private function OnCombatOver():void
+		{
+			mCombatOver = true;
+		}
+		
+		public function SetSkillUpdate(aSkillUpdate:SkillUpdate):void
+		{
+			//update stats with modifiers
+			for each(var playerStat:Stat in mPlayer.mStatList)
+			{
+				playerStat.Value = playerStat.OriginalValue;
+				var modifierList:Vector.<Stat> = aSkillUpdate.GetStatListById(playerStat.Type.ID);
+				for each(var modifierStat:Stat in modifierList)
+				{
+					playerStat.Value += modifierStat.Value;
+				}
+			}
+			mSkillList.splice(0, mSkillList.length);
+			for each(var skill:Skill in aSkillUpdate)
+			{
+				mSkillList.push(skill);
+			}
 		}
 		
 		override public function Update():void
