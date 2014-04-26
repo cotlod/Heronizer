@@ -3,6 +3,7 @@ package combat
 	import combat.event.CharacterEvent;
 	import mvc.BaseController;
 	import util.GameTime;
+	import util.OffsetValues;
 	/**
 	 * ...
 	 * @author 
@@ -14,14 +15,14 @@ package combat
 		public var Speed:Stat = new Stat(5, 0, EStat.SPEED);
 		public var Attack:Stat = new Stat(1, 0, EStat.ATTACK);
 		public var Defense:Stat = new Stat(1, 0, EStat.DEFENSE);
-		public var SkillCooldown:Stat = new Stat(20, 0, EStat.SKILL_COOLDOWN);
+		public var SkillDuration:Stat = new Stat(20, 0, EStat.SKILL_DURATION);
 		
 		private var mAttackTimer:Number = 0;
 		
 		public function BaseCharacter() 
 		{
 			mView = new CharacterView();
-			mView.y = 50;
+			mView.y = OffsetValues.CHARACTERS_Y_OFFSET;
 		}
 		
 		public function SendDamage(aDamage:int):void

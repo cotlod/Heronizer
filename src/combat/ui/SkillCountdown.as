@@ -6,20 +6,20 @@ package combat.ui
 	 * ...
 	 * @author 
 	 */
-	public class XPBar extends ProgressBar 
+	public class SkillCountdown extends ProgressBar 
 	{
 		
-		public function XPBar() 
+		public function SkillCountdown() 
 		{
 			mRatio = 0;
 			mWidth = OffsetValues.COMBAT_VIEW_WIDTH / 2;
 			mBackground = new Sprite();
-			mBackground.graphics.beginFill(0xB200FF);
+			mBackground.graphics.beginFill(0x0094FF);
 			mBackground.graphics.drawRect(0, 0, mWidth, 20);
 			mBackground.graphics.endFill();
 			addChild(mBackground);
 			mForeground = new Sprite();
-			mForeground.graphics.beginFill(0x57007F);
+			mForeground.graphics.beginFill(0x00FFFF);
 			mForeground.graphics.drawRect(0, 0, mWidth, 20);
 			mForeground.graphics.endFill();
 			addChild(mForeground);

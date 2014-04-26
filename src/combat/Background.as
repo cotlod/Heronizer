@@ -2,6 +2,7 @@ package combat
 {
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import util.OffsetValues;
 	/**
 	 * ...
 	 * @author 
@@ -16,8 +17,7 @@ package combat
 		{
 			mBitmapBackground = new backgroundClass();
 			addChild(mBitmapBackground);
+			mBitmapBackground.height = OffsetValues.STAGE_HEIGHT;
 		}
-		
 	}
-
 }

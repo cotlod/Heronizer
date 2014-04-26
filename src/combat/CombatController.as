@@ -27,8 +27,14 @@ package combat
 			mPlayer.addEventListener(CharacterEvent.ATTACK, OnPlayerAttack);
 			mPlayer.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnPlayerReceivedDamage);
 			mPlayer.addEventListener(CharacterEvent.CHANGED_SKILL, OnPlayerChangedSkill);
+			mPlayer.addEventListener(CharacterEvent.SKILL_COOLDOWN_UPDATE, OnPlayerCooldownUpdate);
 			mEnemy.addEventListener(CharacterEvent.ATTACK, OnEnemyAttack);
 			mEnemy.addEventListener(CharacterEvent.RECEIVED_DAMAGE, OnEnemyReceivedDamage);
+		}
+		
+		private function OnPlayerCooldownUpdate(e:CharacterEvent):void 
+		{
+			(mView as CombatView).SetSkillCooldown(e.Ratio);
 		}
 		
 		private function OnPlayerChangedSkill(e:CharacterEvent):void 
@@ -65,5 +71,4 @@ package combat
 			mView.Update();
 		}
 	}
-
 }

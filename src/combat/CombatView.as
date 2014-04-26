@@ -38,6 +38,11 @@ package combat
 			mHud.SetHealthBar(aCharacterId, aRatio);
 		}
 		
+		public function SetSkillCooldown(aRatio:Number):void
+		{
+			mHud.SetSkillCooldown(aRatio);
+		}
+		
 		private function OnStatDisplayComplete(e:Event):void 
 		{
 			var statDisplay:StatDisplay = e.target as StatDisplay;

@@ -12,7 +12,7 @@ package combat
 		[Embed(source="../../bin/assets/superman.gif")]
 		private var mPlayerClass:Class;
 		private var mPlayerVisual:Bitmap;
-		private var mSkillCooldownTimer:Number = 0;
+		private var mSkillTimer:Number = 0;
 		
 		public function Player() 
 		{
@@ -25,11 +25,12 @@ package combat
 		
 		override public function Update():void 
 		{
-			mSkillCooldownTimer += GameTime.DeltaTime;
-			if (mSkillCooldownTimer >= SkillCooldown.Value)
+			mSkillTimer += GameTime.DeltaTime;
+			dispatchEvent(new CharacterEvent(CharacterEvent.SKILL_COOLDOWN_UPDATE, mSkillTimer / SkillDuration.Value));
+			if (mSkillTimer >= SkillDuration.Value)
 			{
 				dispatchEvent(new CharacterEvent(CharacterEvent.CHANGED_SKILL));
-				mSkillCooldownTimer = mSkillCooldownTimer - SkillCooldown.Value;
+				mSkillTimer = mSkillTimer - SkillDuration.Value;
 			}
 			super.Update();
 		}
