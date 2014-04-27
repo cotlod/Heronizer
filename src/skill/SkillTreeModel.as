@@ -44,6 +44,8 @@ package skill
 		{
 			if (aJSON == "") { return; }
 			
+			//aJSON = JSONHack.data;
+			
 			var jsonObject:Object = JSON.decode(aJSON);
 			var skillList:Array = jsonObject.skillList;
 			

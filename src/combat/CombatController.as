@@ -9,6 +9,7 @@ package combat
 	import skill.SkillUpdate;
 	import util.GameTime;
 	import util.OffsetValues;
+	import util.PunchSound;
 	
 	/**
 	 * ...
@@ -26,6 +27,8 @@ package combat
 		private var mShakeX:Number;
 		private var mShakeY:Number;
 		
+		private var mNodeUnlocked:int;
+		
 		public function CombatController()
 		{
 			mView = new CombatView();
@@ -37,8 +40,9 @@ package combat
 			
 			mEnemy.View.addEventListener(MouseEvent.CLICK, OnEnemyClick);
 			
-			mView.addChild(mPlayer.View);
+			
 			mView.addChild(mEnemy.View);
+			mView.addChild(mPlayer.View);
 			
 			//event listeners
 			mPlayer.addEventListener(SkillEvent.STAT_MODIFIER, OnPlayerSkillStatModifier);
@@ -58,7 +62,7 @@ package combat
 			{
 				return;
 			}
-			
+			new PunchSound();
 			var health:Stat = mEnemy.GetStatByID(EStat.HEALTH.ID);
 			health.Value = health.Value - 1;
 			
@@ -138,6 +142,7 @@ package combat
 				dispatchEvent(new CharacterEvent(CharacterEvent.XP_UPDATED, xp));
 				mEnemy.SetSkill(new DeadSkill());
 				mEnemy.SetRandomAsset(Math.random());
+				mEnemy.SetNodeUnlocked(mNodeUnlocked);
 			}
 		}
 		
@@ -225,6 +230,8 @@ package combat
 			{
 				mPlayer.GetSkillList().push(newSkill.Type);
 			}
+			
+			mNodeUnlocked = aSkillUpdate.SkillList.length + aSkillUpdate.StatList.length;
 			
 			OnPlayerReceivedDamage(null);
 			OnPlayerReceivedDamage(null);

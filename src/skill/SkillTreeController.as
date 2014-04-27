@@ -57,6 +57,7 @@ package skill
 			Stage2D.addEventListener(KeyboardEvent.KEY_UP, OnKeyUp);
 			
 			mURLLoader = new URLLoader();
+			
 			mURLLoader.addEventListener(Event.COMPLETE, OnSkillTreeLoaded);
 			mURLLoader.load(new URLRequest("document.json"));
 		}

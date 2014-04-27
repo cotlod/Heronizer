@@ -12,6 +12,8 @@ package combat
 		private var mEnemey2Asset:Enemy2Asset;
 		private var mRandomAsset:Number;
 		
+		private var mUnlockedNode:int;
+		
 		
 		public function Enemy() 
 		{
@@ -57,6 +59,14 @@ package combat
 		public function SetRandomAsset(aRandomAsset:Number):void 
 		{
 			mRandomAsset = aRandomAsset
+		}
+		
+		public function SetNodeUnlocked(aUnlockedNode:int):void 
+		{
+			mUnlockedNode = aUnlockedNode
+			
+			GetStatByID(EStat.HEALTH.ID).Value = mUnlockedNode;
+			GetStatByID(EStat.ATTACK.ID).Value = mUnlockedNode/3;
 		}
 	}
 }
